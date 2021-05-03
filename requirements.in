@@ -1,0 +1,13 @@
+flask-compress==1.9.0
+flask-limiter==1.4
+flask-migrate==2.7.0
+flask-negotiate==0.1.0
+flask-sqlalchemy==2.5.1
+flask==1.1.2
+gunicorn==20.1.0
+jsonschema==3.2.0
+psycopg2==2.8.6
+python-dotenv==0.17.1
+redis==3.5.3
+# Generated with piprot 0.9.10
+# Looks like you've been keeping up to date, time for a delicious beverage!

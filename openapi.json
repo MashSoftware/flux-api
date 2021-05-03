@@ -1,0 +1,320 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Flask REST API Template",
+    "version": "1.0.0",
+    "description": "This template repository contains a Flask app based RESTful API.",
+    "contact": {
+      "email": "hello@mashsoftware.com",
+      "name": "Mash Software",
+      "url": "https://www.mashsoftware.com/"
+    },
+    "license": {
+      "name": "MIT License",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "externalDocs": {
+    "url": "https://github.com/MashSoftware/flask-rest-api",
+    "description": "GitHub"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:{port}/{version}",
+      "description": "Local development",
+      "variables": {
+        "port": {
+          "default": "3000"
+        },
+        "version": {
+          "default": "v1"
+        }
+      }
+    },
+    {
+      "url": "https://mash-flask-rest-api.herokuapp.com/{version}",
+      "description": "Production",
+      "variables": {
+        "version": {
+          "default": "v1"
+        }
+      }
+    }
+  ],
+  "tags": [
+    {
+      "name": "Thing",
+      "description": "Operations on the Thing resource"
+    }
+  ],
+  "paths": {
+    "/things": {
+      "get": {
+        "description": "Retrieve a list of things",
+        "operationId": "get_things",
+        "tags": ["Thing"],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Name to filter by",
+            "required": false,
+            "example": "Matt",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of things",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Thing"
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No things found"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Create a new thing",
+        "operationId": "create_thing",
+        "tags": ["Thing"],
+        "requestBody": {
+          "description": "New thing data to create",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ThingRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Newly created thing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Thing"
+                }
+              }
+            },
+            "headers": {
+              "Location": {
+                "description": "URL of the newly created thing",
+                "schema": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/things/{thing_id}": {
+      "get": {
+        "description": "Retrieve a thing with a specific ID",
+        "operationId": "get_thing",
+        "tags": ["Thing"],
+        "parameters": [
+          {
+            "name": "thing_id",
+            "in": "path",
+            "description": "ID of the thing to retrieve",
+            "required": true,
+            "example": "d9ecd6ee-3ab8-473b-9585-bc653024bed9",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thing response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Thing"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Update a thing with a specific ID",
+        "operationId": "update_thing",
+        "tags": ["Thing"],
+        "parameters": [
+          {
+            "name": "thing_id",
+            "in": "path",
+            "description": "ID of the thing to update",
+            "required": true,
+            "example": "d9ecd6ee-3ab8-473b-9585-bc653024bed9",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thing response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ThingRequest"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete a thing with a specific ID",
+        "operationId": "delete_thing",
+        "tags": ["Thing"],
+        "parameters": [
+          {
+            "name": "thing_id",
+            "in": "path",
+            "description": "ID of the thing to delete",
+            "required": true,
+            "example": "d9ecd6ee-3ab8-473b-9585-bc653024bed9",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Thing deleted"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Thing": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "d9ecd6ee-3ab8-473b-9585-bc653024bed9"
+          },
+          "name": {
+            "type": "string",
+            "example": "Matt",
+            "maxLength": 32
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2021-04-20T22:04:51.583801+01:00"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": "2021-04-20T22:16:57.492478+01:00"
+          }
+        }
+      },
+      "ThingRequest": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Matt",
+            "maxLength": 32
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32",
+            "example": 404
+          },
+          "name": {
+            "type": "string",
+            "example": "Not Found"
+          },
+          "description": {
+            "type": "string",
+            "example": "The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again."
+          }
+        }
+      }
+    }
+  }
+}
