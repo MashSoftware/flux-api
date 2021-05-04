@@ -4,7 +4,7 @@
 #
 #    pip-compile requirements.in
 #
-alembic==1.5.8
+alembic==1.6.0
     # via flask-migrate
 attrs==20.3.0
     # via jsonschema
@@ -68,7 +68,7 @@ six==1.15.0
     #   jsonschema
     #   limits
     #   python-dateutil
-sqlalchemy==1.4.11
+sqlalchemy==1.4.13
     # via
     #   alembic
     #   flask-sqlalchemy
