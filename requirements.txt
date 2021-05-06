@@ -4,9 +4,9 @@
 #
 #    pip-compile requirements.in
 #
-alembic==1.6.0
+alembic==1.6.1
     # via flask-migrate
-attrs==20.3.0
+attrs==21.1.0
     # via jsonschema
 brotli==1.0.9
     # via flask-compress
@@ -32,7 +32,7 @@ flask==1.1.2
     #   flask-migrate
     #   flask-negotiate
     #   flask-sqlalchemy
-greenlet==1.0.0
+greenlet==1.1.0
     # via sqlalchemy
 gunicorn==20.1.0
     # via -r requirements.in
@@ -62,7 +62,7 @@ python-editor==1.0.4
     # via alembic
 redis==3.5.3
     # via -r requirements.in
-six==1.15.0
+six==1.16.0
     # via
     #   flask-limiter
     #   jsonschema
