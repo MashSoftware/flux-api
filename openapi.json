@@ -1,9 +1,9 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "Flask REST API Template",
+    "title": "Flux API",
     "version": "1.0.0",
-    "description": "This template repository contains a Flask app based RESTful API.",
+    "description": "Flux - Simple, quick and easy organisation management",
     "contact": {
       "email": "hello@mashsoftware.com",
       "name": "Mash Software",
@@ -15,7 +15,7 @@
     }
   },
   "externalDocs": {
-    "url": "https://github.com/MashSoftware/flask-rest-api",
+    "url": "https://github.com/MashSoftware/flux-api",
     "description": "GitHub"
   },
   "servers": [
@@ -32,7 +32,7 @@
       }
     },
     {
-      "url": "https://mash-flask-rest-api.herokuapp.com/{version}",
+      "url": "https://mash-flux-api.herokuapp.com/{version}",
       "description": "Production",
       "variables": {
         "version": {
@@ -43,23 +43,27 @@
   ],
   "tags": [
     {
-      "name": "Thing",
-      "description": "Operations on the Thing resource"
+      "name": "Organisation",
+      "description": "Operations on the Organisation resource"
+    },
+    {
+      "name": "Programme",
+      "description": "Operations on the Programme resource"
     }
   ],
   "paths": {
-    "/things": {
+    "/organisations": {
       "get": {
-        "description": "Retrieve a list of things",
-        "operationId": "get_things",
-        "tags": ["Thing"],
+        "description": "Retrieve a list of organisations",
+        "operationId": "get_organisations",
+        "tags": ["Organisation"],
         "parameters": [
           {
             "name": "name",
             "in": "query",
             "description": "Name to filter by",
             "required": false,
-            "example": "Matt",
+            "example": "Mash Software",
             "schema": {
               "type": "string"
             }
@@ -67,20 +71,20 @@
         ],
         "responses": {
           "200": {
-            "description": "An array of things",
+            "description": "An array of organisations",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Thing"
+                    "$ref": "#/components/schemas/OrganisationResponse"
                   }
                 }
               }
             }
           },
           "204": {
-            "description": "No things found"
+            "description": "No organisations found"
           },
           "default": {
             "description": "Unexpected error",
@@ -95,33 +99,33 @@
         }
       },
       "post": {
-        "description": "Create a new thing",
-        "operationId": "create_thing",
-        "tags": ["Thing"],
+        "description": "Create a new organisation",
+        "operationId": "create_organisation",
+        "tags": ["Organisation"],
         "requestBody": {
-          "description": "New thing data to create",
+          "description": "New organisation data to create",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ThingRequest"
+                "$ref": "#/components/schemas/OrganisationRequest"
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "Newly created thing",
+            "description": "Newly created organisation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Thing"
+                  "$ref": "#/components/schemas/OrganisationResponse"
                 }
               }
             },
             "headers": {
               "Location": {
-                "description": "URL of the newly created thing",
+                "description": "URL of the newly created organisation",
                 "schema": {
                   "type": "string",
                   "format": "uri"
@@ -142,16 +146,16 @@
         }
       }
     },
-    "/things/{thing_id}": {
+    "/organisations/{organisation_id}": {
       "get": {
-        "description": "Retrieve a thing with a specific ID",
-        "operationId": "get_thing",
-        "tags": ["Thing"],
+        "description": "Retrieve a specific organisation",
+        "operationId": "get_organisation",
+        "tags": ["Organisation"],
         "parameters": [
           {
-            "name": "thing_id",
+            "name": "organisation_id",
             "in": "path",
-            "description": "ID of the thing to retrieve",
+            "description": "ID of the organisation to retrieve",
             "required": true,
             "example": "d9ecd6ee-3ab8-473b-9585-bc653024bed9",
             "schema": {
@@ -162,11 +166,11 @@
         ],
         "responses": {
           "200": {
-            "description": "Thing response",
+            "description": "Organisation response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Thing"
+                  "$ref": "#/components/schemas/OrganisationResponse"
                 }
               }
             }
@@ -184,14 +188,14 @@
         }
       },
       "put": {
-        "description": "Update a thing with a specific ID",
-        "operationId": "update_thing",
-        "tags": ["Thing"],
+        "description": "Update a specific organisation",
+        "operationId": "update_organisation",
+        "tags": ["Organisation"],
         "parameters": [
           {
-            "name": "thing_id",
+            "name": "organisation_id",
             "in": "path",
-            "description": "ID of the thing to update",
+            "description": "ID of the organisation to update",
             "required": true,
             "example": "d9ecd6ee-3ab8-473b-9585-bc653024bed9",
             "schema": {
@@ -202,11 +206,11 @@
         ],
         "responses": {
           "200": {
-            "description": "Thing response",
+            "description": "Organisation response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ThingRequest"
+                  "$ref": "#/components/schemas/OrganisationResponse"
                 }
               }
             }
@@ -224,14 +228,14 @@
         }
       },
       "delete": {
-        "description": "Delete a thing with a specific ID",
-        "operationId": "delete_thing",
-        "tags": ["Thing"],
+        "description": "Delete a specific organisation",
+        "operationId": "delete_organisation",
+        "tags": ["Organisation"],
         "parameters": [
           {
-            "name": "thing_id",
+            "name": "organisation_id",
             "in": "path",
-            "description": "ID of the thing to delete",
+            "description": "ID of the organisation to delete",
             "required": true,
             "example": "d9ecd6ee-3ab8-473b-9585-bc653024bed9",
             "schema": {
@@ -242,7 +246,273 @@
         ],
         "responses": {
           "204": {
-            "description": "Thing deleted"
+            "description": "Organisation deleted"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/organisations/{organisation_id}/programmes": {
+      "get": {
+        "description": "Retrieve a list of programmes in an organisation",
+        "operationId": "get_programmes",
+        "tags": ["Programme"],
+        "parameters": [
+          {
+            "name": "organisation_id",
+            "in": "path",
+            "description": "ID of the organisation",
+            "required": true,
+            "example": "d9ecd6ee-3ab8-473b-9585-bc653024bed9",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Name to filter by",
+            "required": false,
+            "example": "Digital Transformation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of programmes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProgrammeResponse"
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No programmes found"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Create a new programme in an organisation",
+        "operationId": "create_programme",
+        "tags": ["Programme"],
+        "parameters": [
+          {
+            "name": "organisation_id",
+            "in": "path",
+            "description": "ID of the organisation",
+            "required": true,
+            "example": "d9ecd6ee-3ab8-473b-9585-bc653024bed9",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "New programme data to create",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProgrammeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Newly created programme",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProgrammeResponse"
+                }
+              }
+            },
+            "headers": {
+              "Location": {
+                "description": "URL of the newly created programme",
+                "schema": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/organisations/{organisation_id}/programmes/{programme_id}": {
+      "get": {
+        "description": "Retrieve a specific programme in an organisation",
+        "operationId": "get_programme",
+        "tags": ["Programme"],
+        "parameters": [
+          {
+            "name": "organisation_id",
+            "in": "path",
+            "description": "ID of the organisation",
+            "required": true,
+            "example": "d9ecd6ee-3ab8-473b-9585-bc653024bed9",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "programme_id",
+            "in": "path",
+            "description": "ID of the programme to delete",
+            "required": true,
+            "example": "f6d1cd4f-9756-499b-b0cc-603aa4935c6f",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Programme response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProgrammeResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Update a specific programme in an organisation",
+        "operationId": "update_programme",
+        "tags": ["Programme"],
+        "parameters": [
+          {
+            "name": "organisation_id",
+            "in": "path",
+            "description": "ID of the organisation",
+            "required": true,
+            "example": "d9ecd6ee-3ab8-473b-9585-bc653024bed9",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "programme_id",
+            "in": "path",
+            "description": "ID of the programme to update",
+            "required": true,
+            "example": "f6d1cd4f-9756-499b-b0cc-603aa4935c6f",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Programme response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProgrammeResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete a specific programme in an organisation",
+        "operationId": "delete_programme",
+        "tags": ["Programme"],
+        "parameters": [
+          {
+            "name": "organisation_id",
+            "in": "path",
+            "description": "ID of the organisation",
+            "required": true,
+            "example": "d9ecd6ee-3ab8-473b-9585-bc653024bed9",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "programme_id",
+            "in": "path",
+            "description": "ID of the programme to delete",
+            "required": true,
+            "example": "f6d1cd4f-9756-499b-b0cc-603aa4935c6f",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "programme deleted"
           },
           "default": {
             "description": "Unexpected error",
@@ -260,7 +530,22 @@
   },
   "components": {
     "schemas": {
-      "Thing": {
+      "OrganisationRequest": {
+        "type": "object",
+        "required": ["name", "domain"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Mash Software"
+          },
+          "domain": {
+            "type": "string",
+            "format": "hostname",
+            "example": "mashsoftware.com"
+          }
+        }
+      },
+      "OrganisationResponse": {
         "type": "object",
         "properties": {
           "id": {
@@ -270,8 +555,12 @@
           },
           "name": {
             "type": "string",
-            "example": "Matt",
-            "maxLength": 32
+            "example": "Mash Software"
+          },
+          "domain": {
+            "type": "string",
+            "format": "hostname",
+            "example": "mashsoftware.com"
           },
           "created_at": {
             "type": "string",
@@ -286,14 +575,38 @@
           }
         }
       },
-      "ThingRequest": {
+      "ProgrammeRequest": {
         "type": "object",
         "required": ["name"],
         "properties": {
           "name": {
             "type": "string",
-            "example": "Matt",
-            "maxLength": 32
+            "example": "Digital Transformation"
+          }
+        }
+      },
+      "ProgrammeResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "f6d1cd4f-9756-499b-b0cc-603aa4935c6f"
+          },
+          "name": {
+            "type": "string",
+            "example": "Digital Transformation"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2021-04-20T22:04:51.583801+01:00"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": "2021-04-20T22:16:57.492478+01:00"
           }
         }
       },
