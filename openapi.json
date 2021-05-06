@@ -54,7 +54,7 @@
   "paths": {
     "/organisations": {
       "get": {
-        "description": "Retrieve a list of organisations",
+        "description": "Get a list of organisations",
         "operationId": "get_organisations",
         "tags": ["Organisation"],
         "parameters": [
@@ -148,14 +148,14 @@
     },
     "/organisations/{organisation_id}": {
       "get": {
-        "description": "Retrieve a specific organisation",
+        "description": "Get a specific organisation",
         "operationId": "get_organisation",
         "tags": ["Organisation"],
         "parameters": [
           {
             "name": "organisation_id",
             "in": "path",
-            "description": "ID of the organisation to retrieve",
+            "description": "ID of the organisation",
             "required": true,
             "example": "d9ecd6ee-3ab8-473b-9585-bc653024bed9",
             "schema": {
@@ -263,7 +263,7 @@
     },
     "/organisations/{organisation_id}/programmes": {
       "get": {
-        "description": "Retrieve a list of programmes in an organisation",
+        "description": "Get a list of programmes in an organisation",
         "operationId": "get_programmes",
         "tags": ["Programme"],
         "parameters": [
@@ -381,7 +381,7 @@
     },
     "/organisations/{organisation_id}/programmes/{programme_id}": {
       "get": {
-        "description": "Retrieve a specific programme in an organisation",
+        "description": "Get a specific programme in an organisation",
         "operationId": "get_programme",
         "tags": ["Programme"],
         "parameters": [
