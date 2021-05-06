@@ -1,6 +1,4 @@
-# Flask REST API Template
-
-This template repository contains a [Flask](https://flask.palletsprojects.com) app based RESTful API. The app is structured based on best practices and experience gained through previous implementations. By using a template repository you can [generate a new repository](https://github.com/MashSoftware/flask-rest-api/generate) with the same directory structure and files to get a new project started quicker.
+# Flux API
 
 ## Prerequisites
 
@@ -20,9 +18,9 @@ This template repository contains a [Flask](https://flask.palletsprojects.com) a
 ```shell
 sudo service postgresql start
 sudo su - postgres -c "create user mash with password mash"
-sudo su - postgres -c "createdb thing"
+sudo su - postgres -c "createdb flux"
 sudo -u postgres psql
-grant all privileges on database thing to mash;
+grant all privileges on database flux to mash;
 ```
 
 ### Create venv and install requirements

@@ -1,3 +1,3 @@
-FLASK_APP=flask_rest_api.py
+FLASK_APP=flux_api.py
 FLASK_ENV=development
 FLASK_RUN_PORT=3000
