@@ -56,7 +56,9 @@
       "get": {
         "description": "Get a list of organisations",
         "operationId": "get_organisations",
-        "tags": ["Organisation"],
+        "tags": [
+          "Organisation"
+        ],
         "parameters": [
           {
             "name": "name",
@@ -101,7 +103,9 @@
       "post": {
         "description": "Create a new organisation",
         "operationId": "create_organisation",
-        "tags": ["Organisation"],
+        "tags": [
+          "Organisation"
+        ],
         "requestBody": {
           "description": "New organisation data to create",
           "required": true,
@@ -150,7 +154,9 @@
       "get": {
         "description": "Get a specific organisation",
         "operationId": "get_organisation",
-        "tags": ["Organisation"],
+        "tags": [
+          "Organisation"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -190,7 +196,9 @@
       "put": {
         "description": "Update a specific organisation",
         "operationId": "update_organisation",
-        "tags": ["Organisation"],
+        "tags": [
+          "Organisation"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -230,7 +238,9 @@
       "delete": {
         "description": "Delete a specific organisation",
         "operationId": "delete_organisation",
-        "tags": ["Organisation"],
+        "tags": [
+          "Organisation"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -265,7 +275,9 @@
       "get": {
         "description": "Get a list of programmes in an organisation",
         "operationId": "get_programmes",
-        "tags": ["Programme"],
+        "tags": [
+          "Programme"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -321,7 +333,9 @@
       "post": {
         "description": "Create a new programme in an organisation",
         "operationId": "create_programme",
-        "tags": ["Programme"],
+        "tags": [
+          "Programme"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -383,7 +397,9 @@
       "get": {
         "description": "Get a specific programme in an organisation",
         "operationId": "get_programme",
-        "tags": ["Programme"],
+        "tags": [
+          "Programme"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -434,7 +450,9 @@
       "put": {
         "description": "Update a specific programme in an organisation",
         "operationId": "update_programme",
-        "tags": ["Programme"],
+        "tags": [
+          "Programme"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -485,7 +503,9 @@
       "delete": {
         "description": "Delete a specific programme in an organisation",
         "operationId": "delete_programme",
-        "tags": ["Programme"],
+        "tags": [
+          "Programme"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -532,7 +552,10 @@
     "schemas": {
       "OrganisationRequest": {
         "type": "object",
-        "required": ["name", "domain"],
+        "required": [
+          "name",
+          "domain"
+        ],
         "properties": {
           "name": {
             "type": "string",
@@ -577,7 +600,9 @@
       },
       "ProgrammeRequest": {
         "type": "object",
-        "required": ["name"],
+        "required": [
+          "name"
+        ],
         "properties": {
           "name": {
             "type": "string",
@@ -596,6 +621,316 @@
           "name": {
             "type": "string",
             "example": "Digital Transformation"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2021-04-20T22:04:51.583801+01:00"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": "2021-04-20T22:16:57.492478+01:00"
+          }
+        }
+      },
+      "ProjectRequest": {
+        "type": "object",
+        "required": [
+          "code",
+          "name"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "P101"
+          },
+          "name": {
+            "type": "string",
+            "example": "Skunkworks"
+          }
+        }
+      },
+      "ProjectResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "a9b72117-5e6e-441f-bdb1-bb1c89ebfc21"
+          },
+          "code": {
+            "type": "string",
+            "example": "P101"
+          },
+          "name": {
+            "type": "string",
+            "example": "Skunkworks"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2021-04-20T22:04:51.583801+01:00"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": "2021-04-20T22:16:57.492478+01:00"
+          }
+        }
+      },
+      "TeamRequest": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Awesome Sauce"
+          }
+        }
+      },
+      "TeamResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "ba62ebd5-72e0-4d8a-8b5a-8cce1233edbb"
+          },
+          "name": {
+            "type": "string",
+            "example": "Awesome Sauce"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2021-04-20T22:04:51.583801+01:00"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": "2021-04-20T22:16:57.492478+01:00"
+          }
+        }
+      },
+      "PersonRequest": {
+        "type": "object",
+        "required": [
+          "first_name",
+          "last_name",
+          "job_id",
+          "type",
+          "full_time_equivalent"
+        ],
+        "properties": {
+          "first_name": {
+            "type": "string",
+            "example": "Mickey"
+          },
+          "last_name": {
+            "type": "string",
+            "example": "Mouse"
+          },
+          "job_id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "cbc0568d-86d2-4a59-82b2-affb05988628"
+          },
+          "employment": {
+            "type": "string",
+            "enum": [
+              "Permenant",
+              "Contract",
+              "Partner"
+            ]
+          },
+          "full_time_equivalent": {
+            "type": "number",
+            "format": "float",
+            "example": 1
+          }
+        }
+      },
+      "PersonResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "2d23f327-f308-4003-a9be-1ac7b9a8c01c"
+          },
+          "first_name": {
+            "type": "string",
+            "example": "Mickey"
+          },
+          "last_name": {
+            "type": "string",
+            "example": "Mouse"
+          },
+          "job_id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "cbc0568d-86d2-4a59-82b2-affb05988628"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "Permenant",
+              "Contract",
+              "Partner"
+            ]
+          },
+          "full_time_equivalent": {
+            "type": "number",
+            "format": "float",
+            "example": 1
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2021-04-20T22:04:51.583801+01:00"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": "2021-04-20T22:16:57.492478+01:00"
+          }
+        }
+      },
+      "JobRequest": {
+        "type": "object",
+        "required": [
+          "title",
+          "grade_id",
+          "practice_id"
+        ],
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Software Developer"
+          },
+          "grade_id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "fac79045-d2f9-489f-acdb-510acbd239c3"
+          },
+          "practice_id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "bff9d721-861f-4747-ab1e-64fbe37e4e53"
+          }
+        }
+      },
+      "JobResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "2d23f327-f308-4003-a9be-1ac7b9a8c01c"
+          },
+          "title": {
+            "type": "string",
+            "example": "Software Developer"
+          },
+          "grade_id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "fac79045-d2f9-489f-acdb-510acbd239c3"
+          },
+          "practice_id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "bff9d721-861f-4747-ab1e-64fbe37e4e53"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2021-04-20T22:04:51.583801+01:00"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": "2021-04-20T22:16:57.492478+01:00"
+          }
+        }
+      },
+      "PracticeRequest": {
+        "type": "object",
+        "required": [
+          "name",
+          "head"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Software Development"
+          },
+          "head": {
+            "type": "string",
+            "example": "Matt Shaw"
+          }
+        }
+      },
+      "PracticeResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "2d23f327-f308-4003-a9be-1ac7b9a8c01c"
+          },
+          "name": {
+            "type": "string",
+            "example": "Software Development"
+          },
+          "head": {
+            "type": "string",
+            "example": "Matt Shaw"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2021-04-20T22:04:51.583801+01:00"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": "2021-04-20T22:16:57.492478+01:00"
+          }
+        }
+      },
+      "GradeRequest": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Senior Executive Officer"
+          }
+        }
+      },
+      "GradeResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "fac79045-d2f9-489f-acdb-510acbd239c3"
+          },
+          "name": {
+            "type": "string",
+            "example": "Senior Executive Officer"
           },
           "created_at": {
             "type": "string",
