@@ -56,9 +56,7 @@
       "get": {
         "description": "Get a list of organisations",
         "operationId": "get_organisations",
-        "tags": [
-          "Organisation"
-        ],
+        "tags": ["Organisation"],
         "parameters": [
           {
             "name": "name",
@@ -103,9 +101,7 @@
       "post": {
         "description": "Create a new organisation",
         "operationId": "create_organisation",
-        "tags": [
-          "Organisation"
-        ],
+        "tags": ["Organisation"],
         "requestBody": {
           "description": "New organisation data to create",
           "required": true,
@@ -154,9 +150,7 @@
       "get": {
         "description": "Get a specific organisation",
         "operationId": "get_organisation",
-        "tags": [
-          "Organisation"
-        ],
+        "tags": ["Organisation"],
         "parameters": [
           {
             "name": "organisation_id",
@@ -196,9 +190,7 @@
       "put": {
         "description": "Update a specific organisation",
         "operationId": "update_organisation",
-        "tags": [
-          "Organisation"
-        ],
+        "tags": ["Organisation"],
         "parameters": [
           {
             "name": "organisation_id",
@@ -238,9 +230,7 @@
       "delete": {
         "description": "Delete a specific organisation",
         "operationId": "delete_organisation",
-        "tags": [
-          "Organisation"
-        ],
+        "tags": ["Organisation"],
         "parameters": [
           {
             "name": "organisation_id",
@@ -275,9 +265,7 @@
       "get": {
         "description": "Get a list of programmes in an organisation",
         "operationId": "get_programmes",
-        "tags": [
-          "Programme"
-        ],
+        "tags": ["Programme"],
         "parameters": [
           {
             "name": "organisation_id",
@@ -333,9 +321,7 @@
       "post": {
         "description": "Create a new programme in an organisation",
         "operationId": "create_programme",
-        "tags": [
-          "Programme"
-        ],
+        "tags": ["Programme"],
         "parameters": [
           {
             "name": "organisation_id",
@@ -397,9 +383,7 @@
       "get": {
         "description": "Get a specific programme in an organisation",
         "operationId": "get_programme",
-        "tags": [
-          "Programme"
-        ],
+        "tags": ["Programme"],
         "parameters": [
           {
             "name": "organisation_id",
@@ -450,9 +434,7 @@
       "put": {
         "description": "Update a specific programme in an organisation",
         "operationId": "update_programme",
-        "tags": [
-          "Programme"
-        ],
+        "tags": ["Programme"],
         "parameters": [
           {
             "name": "organisation_id",
@@ -503,9 +485,7 @@
       "delete": {
         "description": "Delete a specific programme in an organisation",
         "operationId": "delete_programme",
-        "tags": [
-          "Programme"
-        ],
+        "tags": ["Programme"],
         "parameters": [
           {
             "name": "organisation_id",
@@ -552,10 +532,7 @@
     "schemas": {
       "OrganisationRequest": {
         "type": "object",
-        "required": [
-          "name",
-          "domain"
-        ],
+        "required": ["name", "domain"],
         "properties": {
           "name": {
             "type": "string",
@@ -585,6 +562,21 @@
             "format": "hostname",
             "example": "mashsoftware.com"
           },
+          "programmes": {
+            "type": "integer",
+            "format": "int32",
+            "example": 2
+          },
+          "grades": {
+            "type": "integer",
+            "format": "int32",
+            "example": 7
+          },
+          "practices": {
+            "type": "integer",
+            "format": "int32",
+            "example": 5
+          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -600,9 +592,7 @@
       },
       "ProgrammeRequest": {
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "properties": {
           "name": {
             "type": "string",
@@ -622,6 +612,14 @@
             "type": "string",
             "example": "Digital Transformation"
           },
+          "organisation": {
+            "$ref": "#/components/schemas/OrganisationResponse"
+          },
+          "projects": {
+            "type": "integer",
+            "format": "int32",
+            "example": 2
+          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -637,10 +635,7 @@
       },
       "ProjectRequest": {
         "type": "object",
-        "required": [
-          "code",
-          "name"
-        ],
+        "required": ["code", "name"],
         "properties": {
           "code": {
             "type": "string",
@@ -662,11 +657,19 @@
           },
           "code": {
             "type": "string",
-            "example": "P101"
+            "example": "P343"
           },
           "name": {
             "type": "string",
             "example": "Skunkworks"
+          },
+          "teams": {
+            "type": "integer",
+            "format": "int32",
+            "example": 2
+          },
+          "programme": {
+            "$ref": "#/components/schemas/ProgrammeResponse"
           },
           "created_at": {
             "type": "string",
@@ -683,9 +686,7 @@
       },
       "TeamRequest": {
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "properties": {
           "name": {
             "type": "string",
@@ -705,6 +706,14 @@
             "type": "string",
             "example": "Awesome Sauce"
           },
+          "people": {
+            "type": "integer",
+            "format": "int32",
+            "example": 7
+          },
+          "project": {
+            "$ref": "#/components/schemas/ProjectResponse"
+          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -723,6 +732,7 @@
         "required": [
           "first_name",
           "last_name",
+          "email_address",
           "job_id",
           "type",
           "full_time_equivalent"
@@ -736,6 +746,11 @@
             "type": "string",
             "example": "Mouse"
           },
+          "email_address": {
+            "type": "string",
+            "format": "email",
+            "example": "mickey.mouse@example.com"
+          },
           "job_id": {
             "type": "string",
             "format": "uuid",
@@ -743,11 +758,7 @@
           },
           "employment": {
             "type": "string",
-            "enum": [
-              "Permenant",
-              "Contract",
-              "Partner"
-            ]
+            "enum": ["Permenant", "Contract", "Partner"]
           },
           "full_time_equivalent": {
             "type": "number",
@@ -772,23 +783,29 @@
             "type": "string",
             "example": "Mouse"
           },
-          "job_id": {
+          "email_address": {
             "type": "string",
-            "format": "uuid",
-            "example": "cbc0568d-86d2-4a59-82b2-affb05988628"
+            "format": "email",
+            "example": "mickey.mouse@example.com"
           },
-          "type": {
+          "job": {
+            "$ref": "#/components/schemas/JobResponse"
+          },
+          "employment": {
             "type": "string",
-            "enum": [
-              "Permenant",
-              "Contract",
-              "Partner"
-            ]
+            "enum": ["Permenant", "Contract", "Partner"]
           },
           "full_time_equivalent": {
             "type": "number",
             "format": "float",
             "example": 1
+          },
+          "teams": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/components/schemas/TeamResponse"
+            }
           },
           "created_at": {
             "type": "string",
@@ -805,11 +822,7 @@
       },
       "JobRequest": {
         "type": "object",
-        "required": [
-          "title",
-          "grade_id",
-          "practice_id"
-        ],
+        "required": ["title", "grade_id"],
         "properties": {
           "title": {
             "type": "string",
@@ -819,11 +832,6 @@
             "type": "string",
             "format": "uuid",
             "example": "fac79045-d2f9-489f-acdb-510acbd239c3"
-          },
-          "practice_id": {
-            "type": "string",
-            "format": "uuid",
-            "example": "bff9d721-861f-4747-ab1e-64fbe37e4e53"
           }
         }
       },
@@ -839,15 +847,11 @@
             "type": "string",
             "example": "Software Developer"
           },
-          "grade_id": {
-            "type": "string",
-            "format": "uuid",
-            "example": "fac79045-d2f9-489f-acdb-510acbd239c3"
+          "grade": {
+            "$ref": "#/components/schemas/GradeResponse"
           },
-          "practice_id": {
-            "type": "string",
-            "format": "uuid",
-            "example": "bff9d721-861f-4747-ab1e-64fbe37e4e53"
+          "practice": {
+            "$ref": "#/components/schemas/PracticeResponse"
           },
           "created_at": {
             "type": "string",
@@ -864,10 +868,7 @@
       },
       "PracticeRequest": {
         "type": "object",
-        "required": [
-          "name",
-          "head"
-        ],
+        "required": ["name", "head"],
         "properties": {
           "name": {
             "type": "string",
@@ -895,6 +896,9 @@
             "type": "string",
             "example": "Matt Shaw"
           },
+          "organisation": {
+            "$ref": "#/components/schemas/OrganisationResponse"
+          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -910,9 +914,7 @@
       },
       "GradeRequest": {
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "properties": {
           "name": {
             "type": "string",
@@ -931,6 +933,9 @@
           "name": {
             "type": "string",
             "example": "Senior Executive Officer"
+          },
+          "organisation": {
+            "$ref": "#/components/schemas/OrganisationResponse"
           },
           "created_at": {
             "type": "string",
