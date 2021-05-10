@@ -24,9 +24,9 @@ def create_app(config_class=Config):
     migrate.init_app(app, db)
 
     # Register blueprints
-    from app.thing import bp as thing_bp
+    from app.organisation import bp as organisation_bp
 
-    app.register_blueprint(thing_bp, url_prefix="/v1/things")
+    app.register_blueprint(organisation_bp, url_prefix="/v1/organisations")
 
     from app.main import bp as main_bp
 
