@@ -10,7 +10,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 compress = Compress()
 db = SQLAlchemy()
-limiter = Limiter(key_func=get_remote_address, default_limits=["1 per second"])
+limiter = Limiter(key_func=get_remote_address, default_limits=["2 per second", "60 per minute"])
 migrate = Migrate()
 
 
