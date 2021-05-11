@@ -56,7 +56,9 @@
       "get": {
         "description": "Get a list of organisations",
         "operationId": "get_organisations",
-        "tags": ["Organisation"],
+        "tags": [
+          "Organisation"
+        ],
         "parameters": [
           {
             "name": "name",
@@ -101,7 +103,9 @@
       "post": {
         "description": "Create a new organisation",
         "operationId": "create_organisation",
-        "tags": ["Organisation"],
+        "tags": [
+          "Organisation"
+        ],
         "requestBody": {
           "description": "New organisation data to create",
           "required": true,
@@ -150,7 +154,9 @@
       "get": {
         "description": "Get a specific organisation",
         "operationId": "get_organisation",
-        "tags": ["Organisation"],
+        "tags": [
+          "Organisation"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -190,7 +196,9 @@
       "put": {
         "description": "Update a specific organisation",
         "operationId": "update_organisation",
-        "tags": ["Organisation"],
+        "tags": [
+          "Organisation"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -230,7 +238,9 @@
       "delete": {
         "description": "Delete a specific organisation",
         "operationId": "delete_organisation",
-        "tags": ["Organisation"],
+        "tags": [
+          "Organisation"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -265,7 +275,9 @@
       "get": {
         "description": "Get a list of programmes in an organisation",
         "operationId": "get_programmes",
-        "tags": ["Programme"],
+        "tags": [
+          "Programme"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -321,7 +333,9 @@
       "post": {
         "description": "Create a new programme in an organisation",
         "operationId": "create_programme",
-        "tags": ["Programme"],
+        "tags": [
+          "Programme"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -383,7 +397,9 @@
       "get": {
         "description": "Get a specific programme in an organisation",
         "operationId": "get_programme",
-        "tags": ["Programme"],
+        "tags": [
+          "Programme"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -434,7 +450,9 @@
       "put": {
         "description": "Update a specific programme in an organisation",
         "operationId": "update_programme",
-        "tags": ["Programme"],
+        "tags": [
+          "Programme"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -485,7 +503,9 @@
       "delete": {
         "description": "Delete a specific programme in an organisation",
         "operationId": "delete_programme",
-        "tags": ["Programme"],
+        "tags": [
+          "Programme"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -532,7 +552,10 @@
     "schemas": {
       "OrganisationRequest": {
         "type": "object",
-        "required": ["name", "domain"],
+        "required": [
+          "name",
+          "domain"
+        ],
         "properties": {
           "name": {
             "type": "string",
@@ -592,11 +615,18 @@
       },
       "ProgrammeRequest": {
         "type": "object",
-        "required": ["name"],
+        "required": [
+          "name",
+          "programme_manager"
+        ],
         "properties": {
           "name": {
             "type": "string",
             "example": "Digital Transformation"
+          },
+          "programme_manager": {
+            "type": "string",
+            "example": "Kyle Gass"
           }
         }
       },
@@ -611,6 +641,10 @@
           "name": {
             "type": "string",
             "example": "Digital Transformation"
+          },
+          "programme_manager": {
+            "type": "string",
+            "example": "Kyle Gass"
           },
           "organisation": {
             "$ref": "#/components/schemas/OrganisationResponse"
@@ -635,7 +669,10 @@
       },
       "ProjectRequest": {
         "type": "object",
-        "required": ["code", "name"],
+        "required": [
+          "code",
+          "name"
+        ],
         "properties": {
           "code": {
             "type": "string",
@@ -686,7 +723,9 @@
       },
       "TeamRequest": {
         "type": "object",
-        "required": ["name"],
+        "required": [
+          "name"
+        ],
         "properties": {
           "name": {
             "type": "string",
@@ -758,7 +797,11 @@
           },
           "employment": {
             "type": "string",
-            "enum": ["Permenant", "Contract", "Partner"]
+            "enum": [
+              "Permenant",
+              "Contract",
+              "Partner"
+            ]
           },
           "full_time_equivalent": {
             "type": "number",
@@ -793,7 +836,11 @@
           },
           "employment": {
             "type": "string",
-            "enum": ["Permenant", "Contract", "Partner"]
+            "enum": [
+              "Permenant",
+              "Contract",
+              "Partner"
+            ]
           },
           "full_time_equivalent": {
             "type": "number",
@@ -822,7 +869,10 @@
       },
       "JobRequest": {
         "type": "object",
-        "required": ["title", "grade_id"],
+        "required": [
+          "title",
+          "grade_id"
+        ],
         "properties": {
           "title": {
             "type": "string",
@@ -868,7 +918,10 @@
       },
       "PracticeRequest": {
         "type": "object",
-        "required": ["name", "head"],
+        "required": [
+          "name",
+          "head"
+        ],
         "properties": {
           "name": {
             "type": "string",
@@ -914,7 +967,9 @@
       },
       "GradeRequest": {
         "type": "object",
-        "required": ["name"],
+        "required": [
+          "name"
+        ],
         "properties": {
           "name": {
             "type": "string",
