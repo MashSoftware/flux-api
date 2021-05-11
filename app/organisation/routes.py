@@ -63,7 +63,7 @@ def create_organisation():
     db.session.add(organisation)
     try:
         db.session.commit()
-    except IntegrityError as e:
+    except IntegrityError:
         db.session.rollback()
         raise BadRequest()
 
@@ -162,7 +162,11 @@ def create_programme(organisation_id):
     except ValidationError as e:
         raise BadRequest(e.message)
 
-    programme = Programme(name=request.json["name"], organisation_id=str(organisation_id))
+    programme = Programme(
+        name=request.json["name"],
+        programme_manager=request.json["programme_manager"],
+        organisation_id=str(organisation_id),
+    )
 
     db.session.add(programme)
     db.session.commit()
@@ -201,6 +205,7 @@ def update_programme(organisation_id, programme_id):
     programme = Programme.query.get_or_404(str(programme_id))
 
     programme.name = request.json["name"]
+    programme.programme_manager = request.json["programme_manager"]
     programme.updated_at = datetime.utcnow()
 
     db.session.add(programme)

@@ -77,6 +77,7 @@ class Programme(db.Model):
     # Fields
     id = db.Column(UUID, primary_key=True)
     name = db.Column(db.String(), nullable=False, index=True)
+    programme_manager = db.Column(db.String(), nullable=False, index=True)
     organisation_id = db.Column(UUID, db.ForeignKey("organisation.id", ondelete="CASCADE"), nullable=False)
     created_at = db.Column(db.DateTime(timezone=True), nullable=False, index=True)
     updated_at = db.Column(db.DateTime(timezone=True), nullable=True)
@@ -85,9 +86,10 @@ class Programme(db.Model):
     # projects = db.relationship("Project", backref="programme", lazy=True)
 
     # Methods
-    def __init__(self, name, organisation_id):
+    def __init__(self, name, programme_manager, organisation_id):
         self.id = str(uuid.uuid4())
         self.name = name
+        self.programme_manager = programme_manager
         self.organisation_id = str(uuid.UUID(organisation_id, version=4))
         self.created_at = datetime.utcnow()
 
@@ -98,6 +100,7 @@ class Programme(db.Model):
         return {
             "id": self.id,
             "name": self.name,
+            "programme_manager": self.programme_manager,
             "organisation": self.organisation.as_dict(),
             "created_at": self.created_at.isoformat(),
             "updated_at": self.updated_at.isoformat() if self.updated_at else None,
