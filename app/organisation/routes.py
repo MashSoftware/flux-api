@@ -2,7 +2,7 @@ import json
 from datetime import datetime
 
 from app import db
-from app.models import Organisation, Programme
+from app.models import Grade, Organisation, Programme
 from app.organisation import bp
 from flask import Response, request, url_for
 from flask_negotiate import consumes, produces
@@ -15,6 +15,7 @@ with open("openapi.json") as json_file:
     openapi = json.load(json_file)
 organisation_schema = openapi["components"]["schemas"]["OrganisationRequest"]
 programme_schema = openapi["components"]["schemas"]["ProgrammeRequest"]
+grade_schema = openapi["components"]["schemas"]["GradeRequest"]
 
 
 @bp.route("", methods=["GET"])
@@ -221,6 +222,110 @@ def delete_programme(organisation_id, programme_id):
     programme = Programme.query.get_or_404(str(programme_id))
 
     db.session.delete(programme)
+    db.session.commit()
+
+    return Response(mimetype="application/json", status=204)
+
+
+@bp.route("/<uuid:organisation_id>/grades", methods=["GET"])
+@produces("application/json")
+def get_grades(organisation_id):
+    """Get a list of Grades in an Organisation."""
+    name_query = request.args.get("name", type=str)
+
+    if name_query:
+        grades = (
+            Grade.query.filter(Grade.name.ilike("%{}%".format(name_query)))
+            .filter_by(organisation_id=str(organisation_id))
+            .order_by(Grade.created_at.desc())
+            .all()
+        )
+    else:
+        grades = Grade.query.filter_by(organisation_id=str(organisation_id)).order_by(Grade.created_at.desc()).all()
+
+    if grades:
+        results = []
+        for grade in grades:
+            results.append(grade.as_dict())
+
+        return Response(
+            json.dumps(results, sort_keys=True, separators=(",", ":")),
+            mimetype="application/json",
+            status=200,
+        )
+    else:
+        return Response(mimetype="application/json", status=204)
+
+
+@bp.route("/<uuid:organisation_id>/grades", methods=["POST"])
+@consumes("application/json")
+@produces("application/json")
+def create_grade(organisation_id):
+    """Create a new Grade in an Organisation."""
+
+    # Validate request against schema
+    try:
+        validate(request.json, grade_schema, format_checker=FormatChecker())
+    except ValidationError as e:
+        raise BadRequest(e.message)
+
+    grade = Grade(
+        name=request.json["name"],
+        organisation_id=str(organisation_id),
+    )
+
+    db.session.add(grade)
+    db.session.commit()
+
+    response = Response(repr(grade), mimetype="application/json", status=201)
+    response.headers["Location"] = url_for(
+        "organisation.get_grade",
+        organisation_id=organisation_id,
+        grade_id=grade.id,
+    )
+
+    return response
+
+
+@bp.route("/<uuid:organisation_id>/grades/<uuid:grade_id>", methods=["GET"])
+@produces("application/json")
+def get_grade(organisation_id, grade_id):
+    """Get a specific Grade in an Organisation."""
+    grade = Grade.query.get_or_404(str(grade_id))
+
+    return Response(repr(grade), mimetype="application/json", status=200)
+
+
+@bp.route("/<uuid:organisation_id>/grades/<uuid:grade_id>", methods=["PUT"])
+@consumes("application/json")
+@produces("application/json")
+def update_grade(organisation_id, grade_id):
+    """Update a Grade with a specific ID."""
+
+    # Validate request against schema
+    try:
+        validate(request.json, grade_schema, format_checker=FormatChecker())
+    except ValidationError as e:
+        raise BadRequest(e.message)
+
+    grade = Grade.query.get_or_404(str(grade_id))
+
+    grade.name = request.json["name"]
+    grade.updated_at = datetime.utcnow()
+
+    db.session.add(grade)
+    db.session.commit()
+
+    return Response(repr(grade), mimetype="application/json", status=200)
+
+
+@bp.route("/<uuid:organisation_id>/grades/<uuid:grade_id>", methods=["DELETE"])
+@produces("application/json")
+def delete_grade(organisation_id, grade_id):
+    """Delete a Grade with a specific ID."""
+    grade = Grade.query.get_or_404(str(grade_id))
+
+    db.session.delete(grade)
     db.session.commit()
 
     return Response(mimetype="application/json", status=204)
