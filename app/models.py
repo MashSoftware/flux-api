@@ -50,8 +50,9 @@ class Organisation(db.Model):
     updated_at = db.Column(db.DateTime(timezone=True), nullable=True)
 
     # Relationships
-    programmes = db.relationship("Programme", backref="organisation")
     grades = db.relationship("Grade", backref="organisation")
+    programmes = db.relationship("Programme", backref="organisation")
+    practices = db.relationship("Practice", backref="organisation")
 
     # Methods
     def __init__(self, name, domain):
@@ -70,6 +71,71 @@ class Organisation(db.Model):
             "domain": self.domain,
             "grades": len(self.grades),
             "programmes": len(self.programmes),
+            "created_at": self.created_at.isoformat(),
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+        }
+
+
+class Grade(db.Model):
+    # Fields
+    id = db.Column(UUID, primary_key=True)
+    name = db.Column(db.String(), nullable=False, index=True)
+    organisation_id = db.Column(UUID, db.ForeignKey("organisation.id", ondelete="CASCADE"), nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True), nullable=False, index=True)
+    updated_at = db.Column(db.DateTime(timezone=True), nullable=True)
+
+    # Relationships
+    # jobs = db.relationship("Job", backref="grade", lazy=True)
+
+    # Methods
+    def __init__(self, name, organisation_id):
+        self.id = str(uuid.uuid4())
+        self.name = name
+        self.organisation_id = str(uuid.UUID(organisation_id, version=4))
+        self.created_at = datetime.utcnow()
+
+    def __repr__(self):
+        return json.dumps(self.as_dict(), sort_keys=True, separators=(",", ":"))
+
+    def as_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "organisation": self.organisation.as_dict(),
+            "created_at": self.created_at.isoformat(),
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+        }
+
+
+class Practice(db.Model):
+    # Fields
+    id = db.Column(UUID, primary_key=True)
+    name = db.Column(db.String(), nullable=False, index=True)
+    head = db.Column(db.String(), nullable=False, index=True)
+    organisation_id = db.Column(UUID, db.ForeignKey("organisation.id", ondelete="CASCADE"), nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True), nullable=False, index=True)
+    updated_at = db.Column(db.DateTime(timezone=True), nullable=True)
+
+    # Relationships
+    # jobs = db.relationship("Job", backref="practice", lazy=True)
+
+    # Methods
+    def __init__(self, name, head, organisation_id):
+        self.id = str(uuid.uuid4())
+        self.name = name
+        self.head = head
+        self.organisation_id = str(uuid.UUID(organisation_id, version=4))
+        self.created_at = datetime.utcnow()
+
+    def __repr__(self):
+        return json.dumps(self.as_dict(), sort_keys=True, separators=(",", ":"))
+
+    def as_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "head": self.head,
+            "organisation": self.organisation.as_dict(),
             "created_at": self.created_at.isoformat(),
             "updated_at": self.updated_at.isoformat() if self.updated_at else None,
         }
@@ -195,37 +261,6 @@ class Programme(db.Model):
 #             "created_at": self.created_at.isoformat(),
 #             "updated_at": self.updated_at.isoformat() if self.updated_at else None,
 #         }
-
-
-class Grade(db.Model):
-    # Fields
-    id = db.Column(UUID, primary_key=True)
-    name = db.Column(db.String(), nullable=False, index=True)
-    organisation_id = db.Column(UUID, db.ForeignKey("organisation.id", ondelete="CASCADE"), nullable=False)
-    created_at = db.Column(db.DateTime(timezone=True), nullable=False, index=True)
-    updated_at = db.Column(db.DateTime(timezone=True), nullable=True)
-
-    # Relationships
-    # jobs = db.relationship("Job", backref="grade", lazy=True)
-
-    # Methods
-    def __init__(self, name, organisation_id):
-        self.id = str(uuid.uuid4())
-        self.name = name
-        self.organisation_id = str(uuid.UUID(organisation_id, version=4))
-        self.created_at = datetime.utcnow()
-
-    def __repr__(self):
-        return json.dumps(self.as_dict(), sort_keys=True, separators=(",", ":"))
-
-    def as_dict(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-            "organisation": self.organisation.as_dict(),
-            "created_at": self.created_at.isoformat(),
-            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
-        }
 
 
 # class Job(db.Model):
