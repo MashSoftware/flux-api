@@ -502,7 +502,10 @@ def create_role(organisation_id, practice_id):
     return response
 
 
-@bp.route("/<uuid:organisation_id>/practices/<uuid:practice_id>/roles/<uuid:role_id>", methods=["GET"])
+@bp.route(
+    "/<uuid:organisation_id>/practices/<uuid:practice_id>/roles/<uuid:role_id>",
+    methods=["GET"],
+)
 @produces("application/json")
 def get_role(organisation_id, practice_id, role_id):
     """Get a specific Role in an Practice."""
@@ -511,7 +514,10 @@ def get_role(organisation_id, practice_id, role_id):
     return Response(repr(role), mimetype="application/json", status=200)
 
 
-@bp.route("/<uuid:organisation_id>/practices/<uuid:practice_id>/roles/<uuid:role_id>", methods=["PUT"])
+@bp.route(
+    "/<uuid:organisation_id>/practices/<uuid:practice_id>/roles/<uuid:role_id>",
+    methods=["PUT"],
+)
 @consumes("application/json")
 @produces("application/json")
 def update_role(organisation_id, practice_id, role_id):
@@ -535,7 +541,10 @@ def update_role(organisation_id, practice_id, role_id):
     return Response(repr(role), mimetype="application/json", status=200)
 
 
-@bp.route("/<uuid:organisation_id>/practices/<uuid:practice_id>/roles/<uuid:role_id>", methods=["DELETE"])
+@bp.route(
+    "/<uuid:organisation_id>/practices/<uuid:practice_id>/roles/<uuid:role_id>",
+    methods=["DELETE"],
+)
 @produces("application/json")
 def delete_role(organisation_id, practice_id, role_id):
     """Delete a Role with a specific ID."""
