@@ -6,7 +6,6 @@ from sqlalchemy.dialects.postgresql import UUID
 
 from app import db
 
-
 # person_team = db.Table(
 #     "person_team",
 #     db.Column(
@@ -71,6 +70,7 @@ class Organisation(db.Model):
             "domain": self.domain,
             "grades": len(self.grades),
             "programmes": len(self.programmes),
+            "practices": len(self.practices),
             "created_at": self.created_at.isoformat(),
             "updated_at": self.updated_at.isoformat() if self.updated_at else None,
         }
@@ -85,7 +85,7 @@ class Grade(db.Model):
     updated_at = db.Column(db.DateTime(timezone=True), nullable=True)
 
     # Relationships
-    # jobs = db.relationship("Job", backref="grade", lazy=True)
+    roles = db.relationship("Role", backref="grade", lazy=True)
 
     # Methods
     def __init__(self, name, organisation_id):
@@ -102,6 +102,7 @@ class Grade(db.Model):
             "id": self.id,
             "name": self.name,
             "organisation": self.organisation.as_dict(),
+            "roles": len(self.roles),
             "created_at": self.created_at.isoformat(),
             "updated_at": self.updated_at.isoformat() if self.updated_at else None,
         }
@@ -117,7 +118,7 @@ class Practice(db.Model):
     updated_at = db.Column(db.DateTime(timezone=True), nullable=True)
 
     # Relationships
-    # jobs = db.relationship("Job", backref="practice", lazy=True)
+    roles = db.relationship("Role", backref="practice", lazy=True)
 
     # Methods
     def __init__(self, name, head, organisation_id):
@@ -136,6 +137,45 @@ class Practice(db.Model):
             "name": self.name,
             "head": self.head,
             "organisation": self.organisation.as_dict(),
+            "roles": len(self.roles),
+            "created_at": self.created_at.isoformat(),
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+        }
+
+
+class Role(db.Model):
+    # Fields
+    id = db.Column(UUID, primary_key=True)
+    title = db.Column(db.String(), nullable=False, index=True)
+    grade_id = db.Column(UUID, db.ForeignKey("grade.id", ondelete="CASCADE"), nullable=False)
+    practice_id = db.Column(UUID, db.ForeignKey("practice.id", ondelete="CASCADE"), nullable=False)
+    organisation_id = db.Column(UUID, db.ForeignKey("organisation.id", ondelete="CASCADE"), nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True), nullable=False, index=True)
+    updated_at = db.Column(db.DateTime(timezone=True), nullable=True)
+
+    # Relationships
+    # employees = db.relationship("Employee", backref="role", lazy=True)
+
+    # Methods
+    def __init__(self, title, grade_id, practice_id, organisation_id):
+        self.id = str(uuid.uuid4())
+        self.title = title
+        self.grade_id = grade_id
+        self.practice_id = practice_id
+        self.organisation_id = str(uuid.UUID(organisation_id, version=4))
+        self.created_at = datetime.utcnow()
+
+    def __repr__(self):
+        return json.dumps(self.as_dict(), sort_keys=True, separators=(",", ":"))
+
+    def as_dict(self):
+        return {
+            "id": self.id,
+            "title": self.name,
+            "grade": self.grade.as_dict(),
+            "practice": self.practice.as_dict(),
+            "organisation": self.organisation.as_dict(),
+            # "employees": len(self.employees),
             "created_at": self.created_at.isoformat(),
             "updated_at": self.updated_at.isoformat() if self.updated_at else None,
         }
@@ -170,6 +210,7 @@ class Programme(db.Model):
             "name": self.name,
             "programme_manager": self.programme_manager,
             "organisation": self.organisation.as_dict(),
+            # "projects": len(self.projects),
             "created_at": self.created_at.isoformat(),
             "updated_at": self.updated_at.isoformat() if self.updated_at else None,
         }
@@ -261,11 +302,3 @@ class Programme(db.Model):
 #             "created_at": self.created_at.isoformat(),
 #             "updated_at": self.updated_at.isoformat() if self.updated_at else None,
 #         }
-
-
-# class Job(db.Model):
-#     # Fields
-#     id = db.Column(UUID, primary_key=True)
-#     title = db.Column(db.String(), nullable=False, index=True)
-#     created_at = db.Column(db.DateTime(timezone=True), nullable=False, index=True)
-#     updated_at = db.Column(db.DateTime(timezone=True), nullable=True)

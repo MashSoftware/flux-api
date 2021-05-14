@@ -2,7 +2,7 @@ import json
 from datetime import datetime
 
 from app import db
-from app.models import Grade, Organisation, Practice, Programme
+from app.models import Grade, Organisation, Practice, Programme, Role
 from app.organisation import bp
 from flask import Response, request, url_for
 from flask_negotiate import consumes, produces
@@ -17,6 +17,7 @@ organisation_schema = openapi["components"]["schemas"]["OrganisationRequest"]
 programme_schema = openapi["components"]["schemas"]["ProgrammeRequest"]
 grade_schema = openapi["components"]["schemas"]["GradeRequest"]
 practice_schema = openapi["components"]["schemas"]["PracticeRequest"]
+role_schema = openapi["components"]["schemas"]["RoleRequest"]
 
 
 @bp.route("", methods=["GET"])
@@ -435,6 +436,112 @@ def delete_practice(organisation_id, practice_id):
     practice = Practice.query.get_or_404(str(practice_id))
 
     db.session.delete(practice)
+    db.session.commit()
+
+    return Response(mimetype="application/json", status=204)
+
+
+@bp.route("/<uuid:organisation_id>/practices/<uuid:practice_id>/roles", methods=["GET"])
+@produces("application/json")
+def get_roles(organisation_id, practice_id):
+    """Get a list of Roles in an Practice."""
+    name_query = request.args.get("name", type=str)
+
+    if name_query:
+        roles = (
+            Role.query.filter(Role.name.ilike("%{}%".format(name_query)))
+            .filter_by(organisation_id=str(organisation_id))
+            .order_by(Role.created_at.desc())
+            .all()
+        )
+    else:
+        roles = Role.query.filter_by(organisation_id=str(organisation_id)).order_by(Role.created_at.desc()).all()
+
+    if roles:
+        results = []
+        for role in roles:
+            results.append(role.as_dict())
+
+        return Response(
+            json.dumps(results, sort_keys=True, separators=(",", ":")),
+            mimetype="application/json",
+            status=200,
+        )
+    else:
+        return Response(mimetype="application/json", status=204)
+
+
+@bp.route("/<uuid:organisation_id>/practices/<uuid:practice_id>/roles", methods=["POST"])
+@consumes("application/json")
+@produces("application/json")
+def create_role(organisation_id, practice_id):
+    """Create a new Role in an Practice."""
+
+    # Validate request against schema
+    try:
+        validate(request.json, role_schema, format_checker=FormatChecker())
+    except ValidationError as e:
+        raise BadRequest(e.message)
+
+    role = Role(
+        name=request.json["name"],
+        head=request.json["head"],
+        organisation_id=str(organisation_id),
+    )
+
+    db.session.add(role)
+    db.session.commit()
+
+    response = Response(repr(role), mimetype="application/json", status=201)
+    response.headers["Location"] = url_for(
+        "organisation.get_role",
+        organisation_id=organisation_id,
+        role_id=role.id,
+    )
+
+    return response
+
+
+@bp.route("/<uuid:organisation_id>/practices/<uuid:practice_id>/roles/<uuid:role_id>", methods=["GET"])
+@produces("application/json")
+def get_role(organisation_id, practice_id, role_id):
+    """Get a specific Role in an Practice."""
+    role = Role.query.get_or_404(str(role_id))
+
+    return Response(repr(role), mimetype="application/json", status=200)
+
+
+@bp.route("/<uuid:organisation_id>/practices/<uuid:practice_id>/roles/<uuid:role_id>", methods=["PUT"])
+@consumes("application/json")
+@produces("application/json")
+def update_role(organisation_id, practice_id, role_id):
+    """Update a Role with a specific ID."""
+
+    # Validate request against schema
+    try:
+        validate(request.json, role_schema, format_checker=FormatChecker())
+    except ValidationError as e:
+        raise BadRequest(e.message)
+
+    role = Role.query.get_or_404(str(role_id))
+
+    role.name = request.json["name"]
+    role.head = request.json["head"]
+    role.updated_at = datetime.utcnow()
+
+    db.session.add(role)
+    db.session.commit()
+
+    return Response(repr(role), mimetype="application/json", status=200)
+
+
+@bp.route("/<uuid:organisation_id>/practices/<uuid:practice_id>/roles/<uuid:role_id>", methods=["DELETE"])
+@produces("application/json")
+def delete_role(organisation_id, practice_id, role_id):
+    """Delete a Role with a specific ID."""
+    role = Role.query.get_or_404(str(role_id))
+
+    db.session.delete(role)
     db.session.commit()
 
     return Response(mimetype="application/json", status=204)
