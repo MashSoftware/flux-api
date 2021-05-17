@@ -49,6 +49,30 @@
     {
       "name": "Programme",
       "description": "Operations on the Programme resource"
+    },
+    {
+      "name": "Project",
+      "description": "Operations on the Project resource"
+    },
+    {
+      "name": "Team",
+      "description": "Operations on the Team resource"
+    },
+    {
+      "name": "Grade",
+      "description": "Operations on the Grade resource"
+    },
+    {
+      "name": "Practice",
+      "description": "Operations on the Practice resource"
+    },
+    {
+      "name": "Role",
+      "description": "Operations on the Role resource"
+    },
+    {
+      "name": "Person",
+      "description": "Operations on the Person resource"
     }
   ],
   "paths": {
@@ -56,9 +80,7 @@
       "get": {
         "description": "Get a list of organisations",
         "operationId": "get_organisations",
-        "tags": [
-          "Organisation"
-        ],
+        "tags": ["Organisation"],
         "parameters": [
           {
             "name": "name",
@@ -79,7 +101,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/OrganisationResponse"
+                    "$ref": "#/components/schemas/Organisation"
                   }
                 }
               }
@@ -103,9 +125,7 @@
       "post": {
         "description": "Create a new organisation",
         "operationId": "create_organisation",
-        "tags": [
-          "Organisation"
-        ],
+        "tags": ["Organisation"],
         "requestBody": {
           "description": "New organisation data to create",
           "required": true,
@@ -123,7 +143,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OrganisationResponse"
+                  "$ref": "#/components/schemas/Organisation"
                 }
               }
             },
@@ -154,9 +174,7 @@
       "get": {
         "description": "Get a specific organisation",
         "operationId": "get_organisation",
-        "tags": [
-          "Organisation"
-        ],
+        "tags": ["Organisation"],
         "parameters": [
           {
             "name": "organisation_id",
@@ -176,7 +194,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OrganisationResponse"
+                  "$ref": "#/components/schemas/Organisation"
                 }
               }
             }
@@ -196,9 +214,7 @@
       "put": {
         "description": "Update a specific organisation",
         "operationId": "update_organisation",
-        "tags": [
-          "Organisation"
-        ],
+        "tags": ["Organisation"],
         "parameters": [
           {
             "name": "organisation_id",
@@ -218,7 +234,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OrganisationResponse"
+                  "$ref": "#/components/schemas/Organisation"
                 }
               }
             }
@@ -238,9 +254,7 @@
       "delete": {
         "description": "Delete a specific organisation",
         "operationId": "delete_organisation",
-        "tags": [
-          "Organisation"
-        ],
+        "tags": ["Organisation"],
         "parameters": [
           {
             "name": "organisation_id",
@@ -274,10 +288,8 @@
     "/organisations/{organisation_id}/programmes": {
       "get": {
         "description": "Get a list of programmes in an organisation",
-        "operationId": "get_programmes",
-        "tags": [
-          "Programme"
-        ],
+        "operationId": "list_programmes",
+        "tags": ["Programme"],
         "parameters": [
           {
             "name": "organisation_id",
@@ -309,7 +321,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProgrammeResponse"
+                    "$ref": "#/components/schemas/Programme"
                   }
                 }
               }
@@ -333,9 +345,7 @@
       "post": {
         "description": "Create a new programme in an organisation",
         "operationId": "create_programme",
-        "tags": [
-          "Programme"
-        ],
+        "tags": ["Programme"],
         "parameters": [
           {
             "name": "organisation_id",
@@ -366,7 +376,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProgrammeResponse"
+                  "$ref": "#/components/schemas/Programme"
                 }
               }
             },
@@ -397,9 +407,7 @@
       "get": {
         "description": "Get a specific programme in an organisation",
         "operationId": "get_programme",
-        "tags": [
-          "Programme"
-        ],
+        "tags": ["Programme"],
         "parameters": [
           {
             "name": "organisation_id",
@@ -430,7 +438,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProgrammeResponse"
+                  "$ref": "#/components/schemas/Programme"
                 }
               }
             }
@@ -450,9 +458,7 @@
       "put": {
         "description": "Update a specific programme in an organisation",
         "operationId": "update_programme",
-        "tags": [
-          "Programme"
-        ],
+        "tags": ["Programme"],
         "parameters": [
           {
             "name": "organisation_id",
@@ -483,7 +489,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProgrammeResponse"
+                  "$ref": "#/components/schemas/Programme"
                 }
               }
             }
@@ -503,9 +509,7 @@
       "delete": {
         "description": "Delete a specific programme in an organisation",
         "operationId": "delete_programme",
-        "tags": [
-          "Programme"
-        ],
+        "tags": ["Programme"],
         "parameters": [
           {
             "name": "organisation_id",
@@ -546,16 +550,71 @@
           }
         }
       }
+    },
+    "/organisations/{organisation_id}/projects": {
+      "get": {
+        "description": "Get a list of projects in an organisation",
+        "operationId": "list_projects",
+        "tags": ["Project"]
+      },
+      "post": {
+        "description": "Create a new project in an organisation",
+        "operationId": "create_project",
+        "tags": ["Project"]
+      }
+    },
+    "/organisations/{organisation_id}/projects/{project_id}": {
+      "get": {
+        "description": "Get a specific project in an organisation",
+        "operationId": "get_project",
+        "tags": ["Project"]
+      },
+      "put": {
+        "description": "Update a specific project in an organisation",
+        "operationId": "update_project",
+        "tags": ["Project"]
+      },
+      "delete": {
+        "description": "Delete a specific project in an organisation",
+        "operationId": "delete_project",
+        "tags": ["Project"]
+      }
+    },
+    "/organisations/{organisation_id}/teams": {
+      "get": {
+        "description": "Get a list of teams in an organisation",
+        "operationId": "list_teams",
+        "tags": ["Team"]
+      },
+      "post": {
+        "description": "Create a new team in an organisation",
+        "operationId": "create_team",
+        "tags": ["Team"]
+      }
+    },
+    "/organisations/{organisation_id}/teams/{team_id}": {
+      "get": {
+        "description": "Get a specific team in an organisation",
+        "operationId": "get_team",
+        "tags": ["Team"]
+      },
+      "put": {
+        "description": "Update a specific team in an organisation",
+        "operationId": "update_team",
+        "tags": ["Team"]
+      },
+      "delete": {
+        "description": "Delete a specific team in an organisation",
+        "operationId": "delete_team",
+        "tags": ["Team"]
+      }
     }
   },
   "components": {
     "schemas": {
       "OrganisationRequest": {
         "type": "object",
-        "required": [
-          "name",
-          "domain"
-        ],
+        "required": ["name", "domain"],
         "properties": {
           "name": {
             "type": "string",
@@ -568,7 +627,7 @@
           }
         }
       },
-      "OrganisationResponse": {
+      "Organisation": {
         "type": "object",
         "properties": {
           "id": {
@@ -615,10 +674,7 @@
       },
       "ProgrammeRequest": {
         "type": "object",
-        "required": [
-          "name",
-          "programme_manager"
-        ],
+        "required": ["name", "programme_manager"],
         "properties": {
           "name": {
             "type": "string",
@@ -630,7 +686,7 @@
           }
         }
       },
-      "ProgrammeResponse": {
+      "Programme": {
         "type": "object",
         "properties": {
           "id": {
@@ -647,7 +703,7 @@
             "example": "Kyle Gass"
           },
           "organisation": {
-            "$ref": "#/components/schemas/OrganisationResponse"
+            "$ref": "#/components/schemas/Organisation"
           },
           "projects": {
             "type": "integer",
@@ -669,10 +725,7 @@
       },
       "ProjectRequest": {
         "type": "object",
-        "required": [
-          "code",
-          "name"
-        ],
+        "required": ["code", "name"],
         "properties": {
           "code": {
             "type": "string",
@@ -681,10 +734,16 @@
           "name": {
             "type": "string",
             "example": "Skunkworks"
+          },
+          "programme_id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true,
+            "example": "f6d1cd4f-9756-499b-b0cc-603aa4935c6f"
           }
         }
       },
-      "ProjectResponse": {
+      "Project": {
         "type": "object",
         "properties": {
           "id": {
@@ -706,7 +765,7 @@
             "example": 2
           },
           "programme": {
-            "$ref": "#/components/schemas/ProgrammeResponse"
+            "$ref": "#/components/schemas/Programme"
           },
           "created_at": {
             "type": "string",
@@ -723,17 +782,20 @@
       },
       "TeamRequest": {
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "properties": {
           "name": {
             "type": "string",
             "example": "Awesome Sauce"
+          },
+          "project_id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "a9b72117-5e6e-441f-bdb1-bb1c89ebfc21"
           }
         }
       },
-      "TeamResponse": {
+      "Team": {
         "type": "object",
         "properties": {
           "id": {
@@ -751,7 +813,7 @@
             "example": 7
           },
           "project": {
-            "$ref": "#/components/schemas/ProjectResponse"
+            "$ref": "#/components/schemas/Project"
           },
           "created_at": {
             "type": "string",
@@ -797,11 +859,7 @@
           },
           "employment": {
             "type": "string",
-            "enum": [
-              "Permenant",
-              "Contract",
-              "Partner"
-            ]
+            "enum": ["Permenant", "Contract", "Partner"]
           },
           "full_time_equivalent": {
             "type": "number",
@@ -810,7 +868,7 @@
           }
         }
       },
-      "PersonResponse": {
+      "Person": {
         "type": "object",
         "properties": {
           "id": {
@@ -832,15 +890,11 @@
             "example": "mickey.mouse@example.com"
           },
           "role": {
-            "$ref": "#/components/schemas/RoleResponse"
+            "$ref": "#/components/schemas/Role"
           },
           "employment": {
             "type": "string",
-            "enum": [
-              "Permenant",
-              "Contract",
-              "Partner"
-            ]
+            "enum": ["Permenant", "Contract", "Partner"]
           },
           "full_time_equivalent": {
             "type": "number",
@@ -851,7 +905,7 @@
             "type": "array",
             "minItems": 1,
             "items": {
-              "$ref": "#/components/schemas/TeamResponse"
+              "$ref": "#/components/schemas/Team"
             }
           },
           "created_at": {
@@ -869,10 +923,7 @@
       },
       "RoleRequest": {
         "type": "object",
-        "required": [
-          "title",
-          "grade_id"
-        ],
+        "required": ["title", "grade_id"],
         "properties": {
           "title": {
             "type": "string",
@@ -882,10 +933,15 @@
             "type": "string",
             "format": "uuid",
             "example": "fac79045-d2f9-489f-acdb-510acbd239c3"
+          },
+          "practice_id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "2d23f327-f308-4003-a9be-1ac7b9a8c01c"
           }
         }
       },
-      "RoleResponse": {
+      "Role": {
         "type": "object",
         "properties": {
           "id": {
@@ -898,10 +954,10 @@
             "example": "Software Developer"
           },
           "grade": {
-            "$ref": "#/components/schemas/GradeResponse"
+            "$ref": "#/components/schemas/Grade"
           },
           "practice": {
-            "$ref": "#/components/schemas/PracticeResponse"
+            "$ref": "#/components/schemas/Practice"
           },
           "created_at": {
             "type": "string",
@@ -918,10 +974,7 @@
       },
       "PracticeRequest": {
         "type": "object",
-        "required": [
-          "name",
-          "head"
-        ],
+        "required": ["name", "head"],
         "properties": {
           "name": {
             "type": "string",
@@ -933,7 +986,7 @@
           }
         }
       },
-      "PracticeResponse": {
+      "Practice": {
         "type": "object",
         "properties": {
           "id": {
@@ -950,7 +1003,7 @@
             "example": "Matt Shaw"
           },
           "organisation": {
-            "$ref": "#/components/schemas/OrganisationResponse"
+            "$ref": "#/components/schemas/Organisation"
           },
           "created_at": {
             "type": "string",
@@ -967,9 +1020,7 @@
       },
       "GradeRequest": {
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "properties": {
           "name": {
             "type": "string",
@@ -977,7 +1028,7 @@
           }
         }
       },
-      "GradeResponse": {
+      "Grade": {
         "type": "object",
         "properties": {
           "id": {
@@ -990,7 +1041,7 @@
             "example": "Senior Executive Officer"
           },
           "organisation": {
-            "$ref": "#/components/schemas/OrganisationResponse"
+            "$ref": "#/components/schemas/Organisation"
           },
           "created_at": {
             "type": "string",
