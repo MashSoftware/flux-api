@@ -10,7 +10,7 @@ attrs==21.2.0
     # via jsonschema
 brotli==1.0.9
     # via flask-compress
-click==8.0.0
+click==8.0.1
     # via flask
 flask-compress==1.9.0
     # via -r requirements.in
@@ -36,9 +36,9 @@ greenlet==1.1.0
     # via sqlalchemy
 gunicorn==20.1.0
     # via -r requirements.in
-itsdangerous==2.0.0
+itsdangerous==2.0.1
     # via flask
-jinja2==3.0.0
+jinja2==3.0.1
     # via flask
 jsonschema==3.2.0
     # via -r requirements.in
@@ -46,7 +46,7 @@ limits==1.5.1
     # via flask-limiter
 mako==1.1.4
     # via alembic
-markupsafe==2.0.0
+markupsafe==2.0.1
     # via
     #   jinja2
     #   mako
@@ -72,7 +72,7 @@ sqlalchemy==1.4.15
     # via
     #   alembic
     #   flask-sqlalchemy
-werkzeug==2.0.0
+werkzeug==2.0.1
     # via flask
 
 # The following packages are considered to be unsafe in a requirements file:
