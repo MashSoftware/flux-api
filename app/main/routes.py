@@ -1,11 +1,11 @@
 import json
 
-from app.main import bp
+from app.main import main
 from flask import Response
 from werkzeug.exceptions import HTTPException, InternalServerError
 
 
-@bp.route("/openapi", methods=["GET"])
+@main.route("/openapi", methods=["GET"])
 def openapi():
     with open("openapi.json") as openapi_json:
         openapi = json.load(openapi_json)
@@ -17,7 +17,7 @@ def openapi():
     )
 
 
-@bp.app_errorhandler(HTTPException)
+@main.app_errorhandler(HTTPException)
 def http_error(error):
     return Response(
         response=json.dumps(
@@ -29,6 +29,6 @@ def http_error(error):
     )
 
 
-@bp.app_errorhandler(Exception)
+@main.app_errorhandler(Exception)
 def unhandled_exception(error):
     raise InternalServerError

@@ -24,13 +24,25 @@ def create_app(config_class=Config):
     migrate.init_app(app, db)
 
     # Register blueprints
-    from app.organisation import bp as organisation_bp
+    from app.grade import grade
+    from app.main import main
+    from app.organisation import organisation
+    from app.person import person
+    from app.practice import practice
+    from app.programme import programme
+    from app.project import project
+    from app.role import role
+    from app.team import team
 
-    app.register_blueprint(organisation_bp, url_prefix="/v1/organisations")
-
-    from app.main import bp as main_bp
-
-    app.register_blueprint(main_bp)
+    app.register_blueprint(grade, url_prefix="/v1/organisations")
+    app.register_blueprint(organisation, url_prefix="/v1/organisations")
+    app.register_blueprint(person, url_prefix="/v1/organisations")
+    app.register_blueprint(practice, url_prefix="/v1/organisations")
+    app.register_blueprint(programme, url_prefix="/v1/organisations")
+    app.register_blueprint(project, url_prefix="/v1/organisations")
+    app.register_blueprint(role, url_prefix="/v1/organisations")
+    app.register_blueprint(team, url_prefix="/v1/organisations")
+    app.register_blueprint(main)
 
     stream_handler = logging.StreamHandler()
     stream_handler.setLevel(logging.INFO)
