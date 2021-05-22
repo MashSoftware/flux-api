@@ -16,7 +16,7 @@ with open("openapi.json") as json_file:
 organisation_schema = openapi["components"]["schemas"]["OrganisationRequest"]
 
 
-@organisation.route("/", methods=["GET"])
+@organisation.route("", methods=["GET"])
 @produces("application/json")
 def list():
     """Get a list of Organisations."""
@@ -45,7 +45,7 @@ def list():
         return Response(mimetype="application/json", status=204)
 
 
-@organisation.route("/", methods=["POST"])
+@organisation.route("", methods=["POST"])
 @consumes("application/json")
 @produces("application/json")
 def create():
@@ -70,7 +70,7 @@ def create():
         raise InternalServerError
 
     response = Response(repr(organisation), mimetype="application/json", status=201)
-    response.headers["Location"] = url_for("organisation.get_organisation", organisation_id=organisation.id)
+    response.headers["Location"] = url_for("organisation.get", organisation_id=organisation.id)
 
     return response
 
