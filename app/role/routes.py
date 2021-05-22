@@ -78,7 +78,7 @@ def create(organisation_id):
 
     response = Response(repr(role), mimetype="application/json", status=201)
     response.headers["Location"] = url_for(
-        "organisation.get",
+        "role.get",
         organisation_id=organisation_id,
         role_id=role.id,
     )
