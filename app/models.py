@@ -52,6 +52,7 @@ class Organisation(db.Model):
     grades = db.relationship("Grade", backref="organisation")
     programmes = db.relationship("Programme", backref="organisation")
     practices = db.relationship("Practice", backref="organisation")
+    roles = db.relationship("Role", backref="organisation")
 
     # Methods
     def __init__(self, name, domain):
@@ -160,8 +161,8 @@ class Role(db.Model):
     def __init__(self, title, grade_id, practice_id, organisation_id):
         self.id = str(uuid.uuid4())
         self.title = title
-        self.grade_id = grade_id
-        self.practice_id = practice_id
+        self.grade_id = str(uuid.UUID(grade_id, version=4))
+        self.practice_id = str(uuid.UUID(practice_id, version=4))
         self.organisation_id = str(uuid.UUID(organisation_id, version=4))
         self.created_at = datetime.utcnow()
 
@@ -171,7 +172,7 @@ class Role(db.Model):
     def as_dict(self):
         return {
             "id": self.id,
-            "title": self.name,
+            "title": self.title,
             "grade": self.grade.as_dict(),
             "practice": self.practice.as_dict(),
             "organisation": self.organisation.as_dict(),
@@ -179,6 +180,68 @@ class Role(db.Model):
             "created_at": self.created_at.isoformat(),
             "updated_at": self.updated_at.isoformat() if self.updated_at else None,
         }
+
+
+# class Employee(db.Model):
+#     # Fields
+#     id = db.Column(UUID, primary_key=True)
+#     first_name = db.Column(db.String, nullable=False)
+#     last_name = db.Column(db.String, nullable=False)
+#     job_id = db.Column(
+#         UUID, db.ForeignKey("job.id", ondelete="CASCADE"), nullable=False, index=True
+#     )
+#     organisation_id = db.Column(
+#         UUID,
+#         db.ForeignKey("organisation.id", ondelete="CASCADE"),
+#         nullable=False,
+#         index=True,
+#     )
+#     email_address = db.Column(db.String(254), nullable=False, unique=True)
+#     full_time_equivalent = db.Column(db.Float, nullable=True)
+#     created_at = db.Column(db.DateTime(timezone=True), nullable=False, index=True)
+#     updated_at = db.Column(db.DateTime(timezone=True), nullable=True)
+
+#     # Relationships
+#     teams = db.relationship(
+#         "Team",
+#         secondary=person_team,
+#         lazy=True,
+#         backref=db.backref("people", lazy=True),
+#     )
+#     projects = db.relationship(
+#         "Project",
+#         secondary=person_project,
+#         lazy=True,
+#         backref=db.backref("people", lazy=True),
+#     )
+
+#     # Methods
+#     def __init__(
+#         self, first_name, last_name, grade_id, job_id, organisation_id, email_address
+#     ):
+#         self.id = str(uuid.uuid4())
+#         self.first_name = first_name.title()
+#         self.last_name = last_name.title()
+#         self.organisation_id = str(uuid.UUID(organisation_id, version=4))
+#         self.job_id = str(uuid.UUID(job_id, version=4))
+#         self.email_address = email_address.lower()
+#         self.created_at = datetime.utcnow()
+
+#     def __repr__(self):
+#         return json.dumps(self.as_dict(), sort_keys=True, separators=(",", ":"))
+
+#     def as_dict(self):
+#         return {
+#             "id": self.id,
+#             "first_name": self.first_name,
+#             "last_name": self.last_name,
+#             "organisation_id": self.organisation_id,
+#             "job_id": self.job_id,
+#             "email_address": self.email_address,
+#             "full_time_equivalent": self.full_time_equivalent,
+#             "created_at": self.created_at.isoformat(),
+#             "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+#         }
 
 
 class Programme(db.Model):
@@ -240,65 +303,3 @@ class Programme(db.Model):
 
 #     # Relationships
 #     # many to many with person
-
-
-# class Person(db.Model):
-#     # Fields
-#     id = db.Column(UUID, primary_key=True)
-#     first_name = db.Column(db.String, nullable=False)
-#     last_name = db.Column(db.String, nullable=False)
-#     job_id = db.Column(
-#         UUID, db.ForeignKey("job.id", ondelete="CASCADE"), nullable=False, index=True
-#     )
-#     organisation_id = db.Column(
-#         UUID,
-#         db.ForeignKey("organisation.id", ondelete="CASCADE"),
-#         nullable=False,
-#         index=True,
-#     )
-#     email_address = db.Column(db.String(254), nullable=False, unique=True)
-#     full_time_equivalent = db.Column(db.Float, nullable=True)
-#     created_at = db.Column(db.DateTime(timezone=True), nullable=False, index=True)
-#     updated_at = db.Column(db.DateTime(timezone=True), nullable=True)
-
-#     # Relationships
-#     teams = db.relationship(
-#         "Team",
-#         secondary=person_team,
-#         lazy=True,
-#         backref=db.backref("people", lazy=True),
-#     )
-#     projects = db.relationship(
-#         "Project",
-#         secondary=person_project,
-#         lazy=True,
-#         backref=db.backref("people", lazy=True),
-#     )
-
-#     # Methods
-#     def __init__(
-#         self, first_name, last_name, grade_id, job_id, organisation_id, email_address
-#     ):
-#         self.id = str(uuid.uuid4())
-#         self.first_name = first_name.title()
-#         self.last_name = last_name.title()
-#         self.organisation_id = str(uuid.UUID(organisation_id, version=4))
-#         self.job_id = str(uuid.UUID(job_id, version=4))
-#         self.email_address = email_address.lower()
-#         self.created_at = datetime.utcnow()
-
-#     def __repr__(self):
-#         return json.dumps(self.as_dict(), sort_keys=True, separators=(",", ":"))
-
-#     def as_dict(self):
-#         return {
-#             "id": self.id,
-#             "first_name": self.first_name,
-#             "last_name": self.last_name,
-#             "organisation_id": self.organisation_id,
-#             "job_id": self.job_id,
-#             "email_address": self.email_address,
-#             "full_time_equivalent": self.full_time_equivalent,
-#             "created_at": self.created_at.isoformat(),
-#             "updated_at": self.updated_at.isoformat() if self.updated_at else None,
-#         }
