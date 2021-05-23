@@ -108,10 +108,10 @@ def update(organisation_id, role_id):
         raise BadRequest(e.message)
 
     role = Role.query.get_or_404(str(role_id))
-    role.title = (request.json["title"],)
-    role.grade_id = (request.json["grade_id"],)
-    role.practice_id = (request.json["practice_id"],)
-    role.organisation_id = (str(organisation_id),)
+
+    role.title = request.json["title"]
+    role.grade_id = request.json["grade_id"]
+    role.practice_id = request.json["practice_id"]
     role.updated_at = datetime.utcnow()
 
     db.session.add(role)
