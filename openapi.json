@@ -674,15 +674,16 @@
       },
       "ProgrammeRequest": {
         "type": "object",
-        "required": ["name", "programme_manager"],
+        "required": ["name", "manager"],
         "properties": {
           "name": {
             "type": "string",
             "example": "Digital Transformation"
           },
-          "programme_manager": {
+          "manager": {
             "type": "string",
-            "example": "Kyle Gass"
+            "format": "uuid",
+            "example": "2d23f327-f308-4003-a9be-1ac7b9a8c01c"
           }
         }
       },
@@ -698,9 +699,8 @@
             "type": "string",
             "example": "Digital Transformation"
           },
-          "programme_manager": {
-            "type": "string",
-            "example": "Kyle Gass"
+          "manager": {
+            "$ref": "#/components/schemas/Person"
           },
           "organisation": {
             "$ref": "#/components/schemas/Organisation"
@@ -735,6 +735,11 @@
             "type": "string",
             "example": "Skunkworks"
           },
+          "manager": {
+            "type": "string",
+            "format": "uuid",
+            "example": "2d23f327-f308-4003-a9be-1ac7b9a8c01c"
+          },
           "programme_id": {
             "type": "string",
             "format": "uuid",
@@ -758,6 +763,9 @@
           "name": {
             "type": "string",
             "example": "Skunkworks"
+          },
+          "manager": {
+            "$ref": "#/components/schemas/Person"
           },
           "teams": {
             "type": "integer",
@@ -831,21 +839,17 @@
       "PersonRequest": {
         "type": "object",
         "required": [
-          "first_name",
-          "last_name",
+          "name",
           "email_address",
-          "role_id",
-          "type",
-          "full_time_equivalent"
+          "location",
+          "employment",
+          "full_time_equivalent",
+          "role_id"
         ],
         "properties": {
-          "first_name": {
+          "name": {
             "type": "string",
-            "example": "Mickey"
-          },
-          "last_name": {
-            "type": "string",
-            "example": "Mouse"
+            "example": "Mickey Mouse"
           },
           "email_address": {
             "type": "string",
@@ -859,12 +863,18 @@
           },
           "employment": {
             "type": "string",
-            "enum": ["Permenant", "Contract", "Partner"]
+            "enum": ["permanent", "contract"]
           },
           "full_time_equivalent": {
             "type": "number",
             "format": "float",
-            "example": 1
+            "minimum": 0,
+            "maximum": 1,
+            "example": 0.8
+          },
+          "location": {
+            "type": "string",
+            "example": "Plymouth"
           }
         }
       },
@@ -876,13 +886,9 @@
             "format": "uuid",
             "example": "2d23f327-f308-4003-a9be-1ac7b9a8c01c"
           },
-          "first_name": {
+          "name": {
             "type": "string",
-            "example": "Mickey"
-          },
-          "last_name": {
-            "type": "string",
-            "example": "Mouse"
+            "example": "Mickey Mouse"
           },
           "email_address": {
             "type": "string",
@@ -892,14 +898,23 @@
           "role": {
             "$ref": "#/components/schemas/Role"
           },
+          "organisation": {
+            "$ref": "#/components/schemas/Organisation"
+          },
           "employment": {
             "type": "string",
-            "enum": ["Permenant", "Contract", "Partner"]
+            "enum": ["permanent", "contract"]
           },
           "full_time_equivalent": {
             "type": "number",
             "format": "float",
-            "example": 1
+            "minimum": 0,
+            "maximum": 1,
+            "example": 0.8
+          },
+          "location": {
+            "type": "string",
+            "example": "Plymouth"
           },
           "teams": {
             "type": "array",
@@ -959,6 +974,11 @@
           "practice": {
             "$ref": "#/components/schemas/Practice"
           },
+          "people": {
+            "type": "integer",
+            "format": "int32",
+            "example": 7
+          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -982,7 +1002,8 @@
           },
           "head": {
             "type": "string",
-            "example": "Matt Shaw"
+            "format": "uuid",
+            "example": "2d23f327-f308-4003-a9be-1ac7b9a8c01c"
           }
         }
       },
@@ -999,11 +1020,15 @@
             "example": "Software Development"
           },
           "head": {
-            "type": "string",
-            "example": "Matt Shaw"
+            "$ref": "#/components/schemas/Person"
           },
           "organisation": {
             "$ref": "#/components/schemas/Organisation"
+          },
+          "roles": {
+            "type": "integer",
+            "format": "int32",
+            "example": 7
           },
           "created_at": {
             "type": "string",
@@ -1042,6 +1067,11 @@
           },
           "organisation": {
             "$ref": "#/components/schemas/Organisation"
+          },
+          "roles": {
+            "type": "integer",
+            "format": "int32",
+            "example": 7
           },
           "created_at": {
             "type": "string",
