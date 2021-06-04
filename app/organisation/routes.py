@@ -34,7 +34,7 @@ def list():
     if organisations:
         results = []
         for organisation in organisations:
-            results.append(organisation.as_dict())
+            results.append(organisation.list_item())
 
         return Response(
             json.dumps(results, sort_keys=True, separators=(",", ":")),

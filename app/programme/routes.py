@@ -1,8 +1,6 @@
 import json
 from datetime import datetime
 
-from flask.signals import request_started
-
 from app import db
 from app.models import Programme
 from app.programme import programme
@@ -39,7 +37,7 @@ def list(organisation_id):
     if programmes:
         results = []
         for programme in programmes:
-            results.append(programme.as_dict())
+            results.append(programme.list_item())
 
         return Response(
             json.dumps(results, sort_keys=True, separators=(",", ":")),

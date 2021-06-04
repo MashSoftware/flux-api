@@ -2,7 +2,7 @@ import json
 from datetime import datetime
 
 from app import db
-from app.models import Practice
+from app.models import Organisation, Practice
 from app.practice import practice
 from flask import Response, request, url_for
 from flask_negotiate import consumes, produces
@@ -36,7 +36,7 @@ def list(organisation_id):
     if practices:
         results = []
         for practice in practices:
-            results.append(practice.as_dict())
+            results.append(practice.list_item())
 
         return Response(
             json.dumps(results, sort_keys=True, separators=(",", ":")),
@@ -61,7 +61,7 @@ def create(organisation_id):
 
     practice = Practice(
         name=request.json["name"],
-        head=request.json["head"],
+        head_id=request.json["head_id"],
         organisation_id=str(organisation_id),
     )
 
@@ -96,6 +96,7 @@ def get(organisation_id, practice_id):
 @produces("application/json")
 def update(organisation_id, practice_id):
     """Update a Practice with a specific ID."""
+    organisation = Organisation.query.get_or_404(str(organisation_id))
 
     # Validate request against schema
     try:
@@ -106,7 +107,7 @@ def update(organisation_id, practice_id):
     practice = Practice.query.get_or_404(str(practice_id))
 
     practice.name = request.json["name"]
-    practice.head = request.json["head"]
+    practice.head_id = request.json["head_id"]
     practice.updated_at = datetime.utcnow()
 
     db.session.add(practice)

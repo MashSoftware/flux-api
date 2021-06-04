@@ -34,7 +34,7 @@ def list(organisation_id):
     if roles:
         results = []
         for role in roles:
-            results.append(role.as_dict())
+            results.append(role.list_item())
 
         return Response(
             json.dumps(results, sort_keys=True, separators=(",", ":")),
@@ -57,17 +57,14 @@ def create(organisation_id):
     except ValidationError as e:
         raise BadRequest(e.message)
 
-    grade = Grade.query.get(request.json["grade_id"])
-    practice = Practice.query.get(request.json["practice_id"])
-    if grade and practice:
-        role = Role(
-            title=request.json["title"],
-            grade_id=request.json["grade_id"],
-            practice_id=request.json["practice_id"],
-            organisation_id=str(organisation_id),
-        )
-    else:
-        raise BadRequest
+    grade = Grade.query.get_or_404(request.json["grade_id"], description="Grade not found")
+    practice = Practice.query.get_or_404(request.json["practice_id"], description="Practice not found")
+    role = Role(
+        title=request.json["title"],
+        grade_id=request.json["grade_id"],
+        practice_id=request.json["practice_id"],
+        organisation_id=str(organisation_id),
+    )
 
     db.session.add(role)
     try:

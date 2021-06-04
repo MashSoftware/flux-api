@@ -34,7 +34,7 @@ def list(organisation_id):
     if grades:
         results = []
         for grade in grades:
-            results.append(grade.as_dict())
+            results.append(grade.list_item())
 
         return Response(
             json.dumps(results, sort_keys=True, separators=(",", ":")),
