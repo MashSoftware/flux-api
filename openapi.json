@@ -950,8 +950,9 @@
             "example": "fac79045-d2f9-489f-acdb-510acbd239c3"
           },
           "practice_id": {
-            "type": "string",
+            "type": ["string", "null"],
             "format": "uuid",
+            "nullable": true,
             "example": "2d23f327-f308-4003-a9be-1ac7b9a8c01c"
           }
         }
@@ -994,16 +995,18 @@
       },
       "PracticeRequest": {
         "type": "object",
-        "required": ["name", "head"],
+        "required": ["name"],
         "properties": {
           "name": {
             "type": "string",
             "example": "Software Development"
           },
-          "head": {
-            "type": "string",
+          "head_id": {
+            "type": ["string", "null"],
             "format": "uuid",
-            "example": "2d23f327-f308-4003-a9be-1ac7b9a8c01c"
+            "nullable": true,
+            "example": "2d23f327-f308-4003-a9be-1ac7b9a8c01c",
+            "description": "ID of the Person"
           }
         }
       },
