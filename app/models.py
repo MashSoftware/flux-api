@@ -223,7 +223,7 @@ class Role(db.Model):
             "id": self.id,
             "title": self.title,
             "grade": {"id": self.grade.id, "name": self.grade.name},
-            "practice": {"id": self.practice.id, "name": self.practice.name},
+            "practice": {"id": self.practice.id if self.practice else None, "name": self.practice.name if self.practice else None},
         }
 
 
