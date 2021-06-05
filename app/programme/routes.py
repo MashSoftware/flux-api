@@ -62,7 +62,7 @@ def create(organisation_id):
 
     programme = Programme(
         name=request.json["name"],
-        programme_manager=request.json["programme_manager"],
+        manager_id=request.json["manager_id"],
         organisation_id=str(organisation_id),
     )
 
@@ -107,7 +107,7 @@ def update(organisation_id, programme_id):
     programme = Programme.query.get_or_404(str(programme_id))
 
     programme.name = request.json["name"]
-    programme.programme_manager = request.json["programme_manager"]
+    programme.manager_id = request.json["manager_id"]
     programme.updated_at = datetime.utcnow()
 
     db.session.add(programme)
