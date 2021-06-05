@@ -674,16 +674,18 @@
       },
       "ProgrammeRequest": {
         "type": "object",
-        "required": ["name", "manager"],
+        "required": ["name"],
         "properties": {
           "name": {
             "type": "string",
             "example": "Digital Transformation"
           },
-          "manager": {
-            "type": "string",
+          "manager_id": {
+            "type": ["string", "null"],
             "format": "uuid",
-            "example": "2d23f327-f308-4003-a9be-1ac7b9a8c01c"
+            "nullable": true,
+            "example": "2d23f327-f308-4003-a9be-1ac7b9a8c01c",
+            "description": "ID of a Person"
           }
         }
       },
@@ -1006,7 +1008,7 @@
             "format": "uuid",
             "nullable": true,
             "example": "2d23f327-f308-4003-a9be-1ac7b9a8c01c",
-            "description": "ID of the Person"
+            "description": "ID of a Person"
           }
         }
       },
