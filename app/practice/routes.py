@@ -61,7 +61,7 @@ def create(organisation_id):
 
     practice = Practice(
         name=request.json["name"],
-        head_id=request.json["head_id"],
+        head_id=request.json["head_id"] if "head_id" in request.json else None,
         organisation_id=str(organisation_id),
     )
 
