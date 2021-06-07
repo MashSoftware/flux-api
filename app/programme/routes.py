@@ -40,7 +40,7 @@ def list(organisation_id):
             results.append(programme.list_item())
 
         return Response(
-            json.dumps(results, sort_keys=True, separators=(",", ":")),
+            json.dumps(results, separators=(",", ":")),
             mimetype="application/json",
             status=200,
         )
