@@ -63,7 +63,7 @@ class Organisation(db.Model):
         self.created_at = datetime.utcnow()
 
     def __repr__(self):
-        return json.dumps(self.as_dict(), sort_keys=True, separators=(",", ":"))
+        return json.dumps(self.as_dict(), separators=(",", ":"))
 
     def as_dict(self):
         return {
@@ -104,7 +104,7 @@ class Grade(db.Model):
         self.created_at = datetime.utcnow()
 
     def __repr__(self):
-        return json.dumps(self.as_dict(), sort_keys=True, separators=(",", ":"))
+        return json.dumps(self.as_dict(), separators=(",", ":"))
 
     def as_dict(self):
         return {
@@ -145,16 +145,18 @@ class Practice(db.Model):
         self.created_at = datetime.utcnow()
 
     def __repr__(self):
-        return json.dumps(self.as_dict(), sort_keys=True, separators=(",", ":"))
+        return json.dumps(self.as_dict(), separators=(",", ":"))
 
     def as_dict(self):
         return {
             "id": self.id,
             "name": self.name,
             "head": {
-                "id": self.head.id if self.head else None,
-                "name": self.head.name if self.head else None,
-            },
+                "id": self.head.id,
+                "name": self.head.name,
+            }
+            if self.head
+            else None,
             "organisation": {
                 "id": self.organisation.id,
                 "name": self.organisation.name,
@@ -169,9 +171,11 @@ class Practice(db.Model):
             "id": self.id,
             "name": self.name,
             "head": {
-                "id": self.head.id if self.head else None,
-                "name": self.head.name if self.head else None,
-            },
+                "id": self.head.id,
+                "name": self.head.name,
+            }
+            if self.head
+            else None,
         }
 
 
@@ -198,17 +202,14 @@ class Role(db.Model):
         self.created_at = datetime.utcnow()
 
     def __repr__(self):
-        return json.dumps(self.as_dict(), sort_keys=True, separators=(",", ":"))
+        return json.dumps(self.as_dict(), separators=(",", ":"))
 
     def as_dict(self):
         return {
             "id": self.id,
             "title": self.title,
             "grade": {"id": self.grade.id, "name": self.grade.name},
-            "practice": {
-                "id": self.practice.id if self.practice else None,
-                "name": self.practice.name if self.practice else None,
-            },
+            "practice": self.practice.list_item() if self.practice else None,
             "organisation": {
                 "id": self.organisation.id,
                 "name": self.organisation.name,
@@ -222,8 +223,8 @@ class Role(db.Model):
         return {
             "id": self.id,
             "title": self.title,
-            "grade": {"id": self.grade.id, "name": self.grade.name},
-            "practice": {"id": self.practice.id if self.practice else None, "name": self.practice.name if self.practice else None},
+            "grade": self.grade.list_item(),
+            "practice": {"id": self.practice.id, "name": self.practice.name} if self.practice else None,
         }
 
 
@@ -281,7 +282,7 @@ class Person(db.Model):
         self.created_at = datetime.utcnow()
 
     def __repr__(self):
-        return json.dumps(self.as_dict(), sort_keys=True, separators=(",", ":"))
+        return json.dumps(self.as_dict(), separators=(",", ":"))
 
     def as_dict(self):
         return {
@@ -330,16 +331,18 @@ class Programme(db.Model):
         self.created_at = datetime.utcnow()
 
     def __repr__(self):
-        return json.dumps(self.as_dict(), sort_keys=True, separators=(",", ":"))
+        return json.dumps(self.as_dict(), separators=(",", ":"))
 
     def as_dict(self):
         return {
             "id": self.id,
             "name": self.name,
             "manager": {
-                "id": self.manager.id if self.manager else None,
-                "name": self.manager.name if self.manager else None,
-            },
+                "id": self.manager.id,
+                "name": self.manager.name,
+            }
+            if self.manager
+            else None,
             "organisation": {
                 "id": self.organisation.id,
                 "name": self.organisation.name,
@@ -354,9 +357,11 @@ class Programme(db.Model):
             "id": self.id,
             "name": self.name,
             "manager": {
-                "id": self.manager.id if self.manager else None,
-                "name": self.manager.name if self.manager else None,
-            },
+                "id": self.manager.id,
+                "name": self.manager.name,
+            }
+            if self.manager
+            else None,
         }
 
 
