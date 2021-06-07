@@ -849,6 +849,283 @@
           }
         }
       }
+    },
+    "/organisations/{organisation_id}/practices": {
+      "get": {
+        "description": "Get a list of practices in an organisation",
+        "operationId": "list_practices",
+        "tags": ["Practice"],
+        "parameters": [
+          {
+            "name": "organisation_id",
+            "in": "path",
+            "description": "ID of the organisation",
+            "required": true,
+            "example": "d9ecd6ee-3ab8-473b-9585-bc653024bed9",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Name to filter by",
+            "required": false,
+            "example": "Software Development",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of practices",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PracticeItem"
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No practices found"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Create a new practice in an organisation",
+        "operationId": "create_practice",
+        "tags": ["Practice"],
+        "parameters": [
+          {
+            "name": "organisation_id",
+            "in": "path",
+            "description": "ID of the organisation",
+            "required": true,
+            "example": "d9ecd6ee-3ab8-473b-9585-bc653024bed9",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "New practice data to create",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PracticeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Newly created practice",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Practice"
+                }
+              }
+            },
+            "headers": {
+              "Location": {
+                "description": "URL of the newly created practice",
+                "schema": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/organisations/{organisation_id}/practices/{practice_id}": {
+      "get": {
+        "description": "Get a specific practice in an organisation",
+        "operationId": "get_practice",
+        "tags": ["Practice"],
+        "parameters": [
+          {
+            "name": "organisation_id",
+            "in": "path",
+            "description": "ID of the organisation",
+            "required": true,
+            "example": "d9ecd6ee-3ab8-473b-9585-bc653024bed9",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "practice_id",
+            "in": "path",
+            "description": "ID of the practice to retrieve",
+            "required": true,
+            "example": "f6d1cd4f-9756-499b-b0cc-603aa4935c6f",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Practice response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Practice"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Update a specific practice in an organisation",
+        "operationId": "update_practice",
+        "tags": ["Practice"],
+        "parameters": [
+          {
+            "name": "organisation_id",
+            "in": "path",
+            "description": "ID of the organisation",
+            "required": true,
+            "example": "d9ecd6ee-3ab8-473b-9585-bc653024bed9",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "practice_id",
+            "in": "path",
+            "description": "ID of the practice to update",
+            "required": true,
+            "example": "f6d1cd4f-9756-499b-b0cc-603aa4935c6f",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Practice data to update",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PracticeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Practice response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Practice"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete a specific practice in an organisation",
+        "operationId": "delete_practice",
+        "tags": ["Practice"],
+        "parameters": [
+          {
+            "name": "organisation_id",
+            "in": "path",
+            "description": "ID of the organisation",
+            "required": true,
+            "example": "d9ecd6ee-3ab8-473b-9585-bc653024bed9",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "practice_id",
+            "in": "path",
+            "description": "ID of the practice to delete",
+            "required": true,
+            "example": "f6d1cd4f-9756-499b-b0cc-603aa4935c6f",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Practice deleted"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
