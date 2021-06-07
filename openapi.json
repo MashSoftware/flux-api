@@ -179,7 +179,7 @@
           {
             "name": "organisation_id",
             "in": "path",
-            "description": "ID of the organisation",
+            "description": "ID of the organisation to retrieve",
             "required": true,
             "example": "d9ecd6ee-3ab8-473b-9585-bc653024bed9",
             "schema": {
@@ -228,6 +228,17 @@
             }
           }
         ],
+        "requestBody": {
+          "description": "Organisation data to update",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrganisationRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Organisation response",
@@ -321,7 +332,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Programme"
+                    "$ref": "#/components/schemas/ProgrammeItem"
                   }
                 }
               }
@@ -423,7 +434,7 @@
           {
             "name": "programme_id",
             "in": "path",
-            "description": "ID of the programme to delete",
+            "description": "ID of the programme to retrieve",
             "required": true,
             "example": "f6d1cd4f-9756-499b-b0cc-603aa4935c6f",
             "schema": {
@@ -483,6 +494,17 @@
             }
           }
         ],
+        "requestBody": {
+          "description": "Programme data to update",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProgrammeRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Programme response",
@@ -587,7 +609,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Grade"
+                    "$ref": "#/components/schemas/GradeItem"
                   }
                 }
               }
@@ -609,9 +631,9 @@
         }
       },
       "post": {
-        "description": "Create a new programme in an organisation",
-        "operationId": "create_programme",
-        "tags": ["Programme"],
+        "description": "Create a new grade in an organisation",
+        "operationId": "create_grade",
+        "tags": ["Grade"],
         "parameters": [
           {
             "name": "organisation_id",
@@ -626,29 +648,29 @@
           }
         ],
         "requestBody": {
-          "description": "New programme data to create",
+          "description": "New grade data to create",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProgrammeRequest"
+                "$ref": "#/components/schemas/GradeRequest"
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "Newly created programme",
+            "description": "Newly created grade",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Programme"
+                  "$ref": "#/components/schemas/Grade"
                 }
               }
             },
             "headers": {
               "Location": {
-                "description": "URL of the newly created programme",
+                "description": "URL of the newly created grade",
                 "schema": {
                   "type": "string",
                   "format": "uri"
@@ -669,50 +691,163 @@
         }
       }
     },
-    "/organisations/{organisation_id}/grades/{project_id}": {
+    "/organisations/{organisation_id}/grades/{grade_id}": {
       "get": {
         "description": "Get a specific grade in an organisation",
-        "operationId": "get_project",
-        "tags": ["Grade"]
+        "operationId": "get_grade",
+        "tags": ["Grade"],
+        "parameters": [
+          {
+            "name": "organisation_id",
+            "in": "path",
+            "description": "ID of the organisation",
+            "required": true,
+            "example": "d9ecd6ee-3ab8-473b-9585-bc653024bed9",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "grade_id",
+            "in": "path",
+            "description": "ID of the grade to retrieve",
+            "required": true,
+            "example": "f6d1cd4f-9756-499b-b0cc-603aa4935c6f",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Grade response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Grade"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
       },
       "put": {
         "description": "Update a specific grade in an organisation",
-        "operationId": "update_project",
-        "tags": ["Grade"]
+        "operationId": "update_grade",
+        "tags": ["Grade"],
+        "parameters": [
+          {
+            "name": "organisation_id",
+            "in": "path",
+            "description": "ID of the organisation",
+            "required": true,
+            "example": "d9ecd6ee-3ab8-473b-9585-bc653024bed9",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "grade_id",
+            "in": "path",
+            "description": "ID of the grade to update",
+            "required": true,
+            "example": "f6d1cd4f-9756-499b-b0cc-603aa4935c6f",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Grade data to update",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GradeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Grade response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Grade"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
       },
       "delete": {
         "description": "Delete a specific grade in an organisation",
-        "operationId": "delete_project",
-        "tags": ["Grade"]
-      }
-    },
-    "/organisations/{organisation_id}/teams": {
-      "get": {
-        "description": "Get a list of teams in an organisation",
-        "operationId": "list_teams",
-        "tags": ["Team"]
-      },
-      "post": {
-        "description": "Create a new team in an organisation",
-        "operationId": "create_team",
-        "tags": ["Team"]
-      }
-    },
-    "/organisations/{organisation_id}/teams/{team_id}": {
-      "get": {
-        "description": "Get a specific team in an organisation",
-        "operationId": "get_team",
-        "tags": ["Team"]
-      },
-      "put": {
-        "description": "Update a specific team in an organisation",
-        "operationId": "update_team",
-        "tags": ["Team"]
-      },
-      "delete": {
-        "description": "Delete a specific team in an organisation",
-        "operationId": "delete_team",
-        "tags": ["Team"]
+        "operationId": "delete_grade",
+        "tags": ["Grade"],
+        "parameters": [
+          {
+            "name": "organisation_id",
+            "in": "path",
+            "description": "ID of the organisation",
+            "required": true,
+            "example": "d9ecd6ee-3ab8-473b-9585-bc653024bed9",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "grade_id",
+            "in": "path",
+            "description": "ID of the grade to delete",
+            "required": true,
+            "example": "f6d1cd4f-9756-499b-b0cc-603aa4935c6f",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Grade deleted"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
