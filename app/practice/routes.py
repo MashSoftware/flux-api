@@ -107,7 +107,7 @@ def update(organisation_id, practice_id):
     practice = Practice.query.get_or_404(str(practice_id))
 
     practice.name = request.json["name"]
-    practice.head_id = request.json["head_id"]
+    practice.head_id = request.json["head_id"] if "head_id" in request.json else None
     practice.updated_at = datetime.utcnow()
 
     db.session.add(practice)
