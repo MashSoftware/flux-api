@@ -25,12 +25,12 @@ def list(organisation_id):
         practices = (
             Practice.query.filter(Practice.name.ilike("%{}%".format(name_query)))
             .filter_by(organisation_id=str(organisation_id))
-            .order_by(Practice.created_at.desc())
+            .order_by(Practice.name.asc())
             .all()
         )
     else:
         practices = (
-            Practice.query.filter_by(organisation_id=str(organisation_id)).order_by(Practice.created_at.desc()).all()
+            Practice.query.filter_by(organisation_id=str(organisation_id)).order_by(Practice.name.asc()).all()
         )
 
     if practices:

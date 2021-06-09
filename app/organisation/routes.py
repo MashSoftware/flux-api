@@ -25,11 +25,11 @@ def list():
     if name_query:
         organisations = (
             Organisation.query.filter(Organisation.name.ilike("%{}%".format(name_query)))
-            .order_by(Organisation.created_at.desc())
+            .order_by(Organisation.name.asc())
             .all()
         )
     else:
-        organisations = Organisation.query.order_by(Organisation.created_at.desc()).all()
+        organisations = Organisation.query.order_by(Organisation.name.asc()).all()
 
     if organisations:
         results = []

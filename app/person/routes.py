@@ -19,18 +19,17 @@ person_schema = openapi["components"]["schemas"]["PersonRequest"]
 @produces("application/json")
 def list(organisation_id):
     """Get a list of People in an Organisation."""
-    organisation_query = request.args.get("organisation", type=str)
     name_query = request.args.get("name", type=str)
 
     if name_query:
         people = (
             Person.query.filter(Person.name.ilike("%{}%".format(name_query)))
-            .filter_by(organisation_id=organisation_query)
-            .order_by(Person.created_at.desc())
+            .filter_by(organisation_id=str(organisation_id))
+            .order_by(Person.name.asc())
             .all()
         )
     else:
-        people = Person.query.filter_by(organisation_id=str(organisation_id)).order_by(Person.created_at.desc()).all()
+        people = Person.query.filter_by(organisation_id=str(organisation_id)).order_by(Person.name.asc()).all()
 
     if people:
         results = []

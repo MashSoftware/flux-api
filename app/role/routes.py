@@ -19,17 +19,17 @@ role_schema = openapi["components"]["schemas"]["RoleRequest"]
 @produces("application/json")
 def list(organisation_id):
     """Get a list of Roles."""
-    name_query = request.args.get("name", type=str)
+    name_query = request.args.get("title", type=str)
 
     if name_query:
         roles = (
-            Role.query.filter(Role.name.ilike("%{}%".format(name_query)))
+            Role.query.filter(Role.title.ilike("%{}%".format(name_query)))
             .filter_by(organisation_id=str(organisation_id))
-            .order_by(Role.created_at.desc())
+            .order_by(Role.title.asc())
             .all()
         )
     else:
-        roles = Role.query.filter_by(organisation_id=str(organisation_id)).order_by(Role.created_at.desc()).all()
+        roles = Role.query.filter_by(organisation_id=str(organisation_id)).order_by(Role.title.asc()).all()
 
     if roles:
         results = []
@@ -108,7 +108,7 @@ def update(organisation_id, role_id):
 
     role.title = request.json["title"]
     role.grade_id = request.json["grade_id"]
-    role.practice_id = request.json["practice_id"]
+    role.practice_id = request.json["practice_id"] if "practice_id" in request.json else None
     role.updated_at = datetime.utcnow()
 
     db.session.add(role)

@@ -25,11 +25,11 @@ def list(organisation_id):
         grades = (
             Grade.query.filter(Grade.name.ilike("%{}%".format(name_query)))
             .filter_by(organisation_id=str(organisation_id))
-            .order_by(Grade.created_at.desc())
+            .order_by(Grade.name.asc())
             .all()
         )
     else:
-        grades = Grade.query.filter_by(organisation_id=str(organisation_id)).order_by(Grade.created_at.desc()).all()
+        grades = Grade.query.filter_by(organisation_id=str(organisation_id)).order_by(Grade.name.asc()).all()
 
     if grades:
         results = []

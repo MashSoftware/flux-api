@@ -19,20 +19,18 @@ programme_schema = openapi["components"]["schemas"]["ProgrammeRequest"]
 @produces("application/json")
 def list(organisation_id):
     """Get a list of Programmes in an Organisation."""
-    organisation_query = request.args.get("organisation", type=str)
     name_query = request.args.get("name", type=str)
 
     if name_query:
         programmes = (
             Programme.query.filter(Programme.name.ilike("%{}%".format(name_query)))
-            .filter_by(organisation_id=organisation_query)
-            .order_by(Programme.created_at.desc())
+            .filter_by(organisation_id=str(organisation_id))
+            .order_by(Programme.name.asc())
             .all()
         )
     else:
-        programmes = (
-            Programme.query.filter_by(organisation_id=str(organisation_id)).order_by(Programme.created_at.desc()).all()
-        )
+        programmes = Programme.query.filter_by(organisation_id=str(organisation_id)).order_by(Programme.name.asc()).all()
+
 
     if programmes:
         results = []
