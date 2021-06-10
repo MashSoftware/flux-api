@@ -1565,20 +1565,18 @@
       },
       "ProjectRequest": {
         "type": "object",
-        "required": ["code", "name"],
+        "required": ["name", "programme_id"],
         "properties": {
-          "code": {
-            "type": "string",
-            "example": "P101"
-          },
           "name": {
             "type": "string",
             "example": "Skunkworks"
           },
-          "manager": {
-            "type": "string",
+          "manager_id": {
+            "type": ["string", "null"],
             "format": "uuid",
-            "example": "2d23f327-f308-4003-a9be-1ac7b9a8c01c"
+            "nullable": true,
+            "example": "2d23f327-f308-4003-a9be-1ac7b9a8c01c",
+            "description": "ID of a Person"
           },
           "programme_id": {
             "type": "string",
@@ -1595,10 +1593,6 @@
             "type": "string",
             "format": "uuid",
             "example": "a9b72117-5e6e-441f-bdb1-bb1c89ebfc21"
-          },
-          "code": {
-            "type": "string",
-            "example": "P343"
           },
           "name": {
             "type": "string",
@@ -1642,6 +1636,9 @@
           "name": {
             "type": "string",
             "example": "Skunkworks"
+          },
+          "manager": {
+            "$ref": "#/components/schemas/PersonItem"
           }
         }
       },
