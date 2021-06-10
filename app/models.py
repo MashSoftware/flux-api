@@ -75,6 +75,8 @@ class Organisation(db.Model):
             "programmes": len(self.programmes),
             "practices": len(self.practices),
             "projects": len(self.projects),
+            "roles": len(self.roles),
+            "people": len(self.people),
             "created_at": self.created_at.isoformat(),
             "updated_at": self.updated_at.isoformat() if self.updated_at else None,
         }
