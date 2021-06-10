@@ -29,8 +29,9 @@ def list(organisation_id):
             .all()
         )
     else:
-        programmes = Programme.query.filter_by(organisation_id=str(organisation_id)).order_by(Programme.name.asc()).all()
-
+        programmes = (
+            Programme.query.filter_by(organisation_id=str(organisation_id)).order_by(Programme.name.asc()).all()
+        )
 
     if programmes:
         results = []
