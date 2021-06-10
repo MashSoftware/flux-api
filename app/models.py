@@ -54,6 +54,7 @@ class Organisation(db.Model):
     practices = db.relationship("Practice", backref="organisation")
     roles = db.relationship("Role", backref="organisation")
     people = db.relationship("Person", backref="organisation")
+    projects = db.relationship("Project", backref="organisation")
 
     # Methods
     def __init__(self, name, domain):
@@ -73,6 +74,7 @@ class Organisation(db.Model):
             "grades": len(self.grades),
             "programmes": len(self.programmes),
             "practices": len(self.practices),
+            "projects": len(self.projects),
             "created_at": self.created_at.isoformat(),
             "updated_at": self.updated_at.isoformat() if self.updated_at else None,
         }
@@ -320,7 +322,7 @@ class Programme(db.Model):
 
     # Relationships
     manager = db.relationship("Person", uselist=False)
-    # projects = db.relationship("Project", backref="programme", lazy=True)
+    projects = db.relationship("Project", backref="programme", lazy=True)
 
     # Methods
     def __init__(self, name, manager_id, organisation_id):
@@ -347,7 +349,7 @@ class Programme(db.Model):
                 "id": self.organisation.id,
                 "name": self.organisation.name,
             },
-            # "projects": len(self.projects),
+            "projects": len(self.projects),
             "created_at": self.created_at.isoformat(),
             "updated_at": self.updated_at.isoformat() if self.updated_at else None,
         }
@@ -365,19 +367,70 @@ class Programme(db.Model):
         }
 
 
-# class Project(db.Model):
-#     # Fields
-#     id = db.Column(UUID, primary_key=True)
-#     name = db.Column(db.String(), nullable=False, index=True)
-#     code = db.Column(db.String(), nullable=False, index=True)
-#     organisation_id = db.Column(UUID, db.ForeignKey("organisation.id"), nullable=False)
-#     programme_id = db.Column(UUID, db.ForeignKey("programme.id"), nullable=True)
-#     created_at = db.Column(db.DateTime(timezone=True), nullable=False, index=True)
-#     updated_at = db.Column(db.DateTime(timezone=True), nullable=True)
+class Project(db.Model):
+    # Fields
+    id = db.Column(UUID, primary_key=True)
+    name = db.Column(db.String(), nullable=False, index=True)
+    manager_id = db.Column(UUID, db.ForeignKey("person.id", ondelete="SET NULL"), nullable=True, index=True)
+    programme_id = db.Column(UUID, db.ForeignKey("programme.id"), nullable=True)
+    organisation_id = db.Column(UUID, db.ForeignKey("organisation.id"), nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True), nullable=False, index=True)
+    updated_at = db.Column(db.DateTime(timezone=True), nullable=True)
 
-#     # Relationships
-#     teams = db.relationship("Team", backref="project", lazy=True)
-#     # many to many with person
+    # Relationships
+    manager = db.relationship("Person", uselist=False)
+    # teams = db.relationship("Team", backref="project", lazy=True)
+    # many to many with person
+
+    # Methods
+    def __init__(self, name, manager_id, programme_id, organisation_id):
+        self.id = str(uuid.uuid4())
+        self.name = name
+        self.manager_id = str(uuid.UUID(manager_id, version=4)) if manager_id else None
+        self.programme_id = str(uuid.UUID(programme_id, version=4))
+        self.organisation_id = str(uuid.UUID(organisation_id, version=4))
+        self.created_at = datetime.utcnow()
+
+    def __repr__(self):
+        return json.dumps(self.as_dict(), separators=(",", ":"))
+
+    def as_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "manager": {
+                "id": self.manager.id,
+                "name": self.manager.name,
+            }
+            if self.manager
+            else None,
+            "programme": {
+                "id": self.programme.id,
+                "name": self.programme.name,
+            },
+            "organisation": {
+                "id": self.organisation.id,
+                "name": self.organisation.name,
+            },
+            "created_at": self.created_at.isoformat(),
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+        }
+
+    def list_item(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "manager": {
+                "id": self.manager.id,
+                "name": self.manager.name,
+            }
+            if self.manager
+            else None,
+            "programme": {
+                "id": self.programme.id,
+                "name": self.programme.name,
+            },
+        }
 
 
 # class Team(db.Model):
