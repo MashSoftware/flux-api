@@ -68,7 +68,7 @@ six==1.16.0
     #   jsonschema
     #   limits
     #   python-dateutil
-sqlalchemy==1.4.17
+sqlalchemy==1.4.18
     # via
     #   alembic
     #   flask-sqlalchemy
