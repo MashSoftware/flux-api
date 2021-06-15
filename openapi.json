@@ -80,7 +80,9 @@
       "get": {
         "description": "Get a list of organisations",
         "operationId": "get_organisations",
-        "tags": ["Organisation"],
+        "tags": [
+          "Organisation"
+        ],
         "parameters": [
           {
             "name": "name",
@@ -125,7 +127,9 @@
       "post": {
         "description": "Create a new organisation",
         "operationId": "create_organisation",
-        "tags": ["Organisation"],
+        "tags": [
+          "Organisation"
+        ],
         "requestBody": {
           "description": "New organisation data to create",
           "required": true,
@@ -174,7 +178,9 @@
       "get": {
         "description": "Get a specific organisation",
         "operationId": "get_organisation",
-        "tags": ["Organisation"],
+        "tags": [
+          "Organisation"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -214,7 +220,9 @@
       "put": {
         "description": "Update a specific organisation",
         "operationId": "update_organisation",
-        "tags": ["Organisation"],
+        "tags": [
+          "Organisation"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -265,7 +273,9 @@
       "delete": {
         "description": "Delete a specific organisation",
         "operationId": "delete_organisation",
-        "tags": ["Organisation"],
+        "tags": [
+          "Organisation"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -300,7 +310,9 @@
       "get": {
         "description": "Get a list of programmes in an organisation",
         "operationId": "list_programmes",
-        "tags": ["Programme"],
+        "tags": [
+          "Programme"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -356,7 +368,9 @@
       "post": {
         "description": "Create a new programme in an organisation",
         "operationId": "create_programme",
-        "tags": ["Programme"],
+        "tags": [
+          "Programme"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -418,7 +432,9 @@
       "get": {
         "description": "Get a specific programme in an organisation",
         "operationId": "get_programme",
-        "tags": ["Programme"],
+        "tags": [
+          "Programme"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -469,7 +485,9 @@
       "put": {
         "description": "Update a specific programme in an organisation",
         "operationId": "update_programme",
-        "tags": ["Programme"],
+        "tags": [
+          "Programme"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -531,7 +549,9 @@
       "delete": {
         "description": "Delete a specific programme in an organisation",
         "operationId": "delete_programme",
-        "tags": ["Programme"],
+        "tags": [
+          "Programme"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -577,7 +597,9 @@
       "get": {
         "description": "Get a list of grades in an organisation",
         "operationId": "list_grades",
-        "tags": ["Grade"],
+        "tags": [
+          "Grade"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -633,7 +655,9 @@
       "post": {
         "description": "Create a new grade in an organisation",
         "operationId": "create_grade",
-        "tags": ["Grade"],
+        "tags": [
+          "Grade"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -695,7 +719,9 @@
       "get": {
         "description": "Get a specific grade in an organisation",
         "operationId": "get_grade",
-        "tags": ["Grade"],
+        "tags": [
+          "Grade"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -746,7 +772,9 @@
       "put": {
         "description": "Update a specific grade in an organisation",
         "operationId": "update_grade",
-        "tags": ["Grade"],
+        "tags": [
+          "Grade"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -808,7 +836,9 @@
       "delete": {
         "description": "Delete a specific grade in an organisation",
         "operationId": "delete_grade",
-        "tags": ["Grade"],
+        "tags": [
+          "Grade"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -854,7 +884,9 @@
       "get": {
         "description": "Get a list of practices in an organisation",
         "operationId": "list_practices",
-        "tags": ["Practice"],
+        "tags": [
+          "Practice"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -910,7 +942,9 @@
       "post": {
         "description": "Create a new practice in an organisation",
         "operationId": "create_practice",
-        "tags": ["Practice"],
+        "tags": [
+          "Practice"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -972,7 +1006,9 @@
       "get": {
         "description": "Get a specific practice in an organisation",
         "operationId": "get_practice",
-        "tags": ["Practice"],
+        "tags": [
+          "Practice"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -1023,7 +1059,9 @@
       "put": {
         "description": "Update a specific practice in an organisation",
         "operationId": "update_practice",
-        "tags": ["Practice"],
+        "tags": [
+          "Practice"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -1085,7 +1123,9 @@
       "delete": {
         "description": "Delete a specific practice in an organisation",
         "operationId": "delete_practice",
-        "tags": ["Practice"],
+        "tags": [
+          "Practice"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -1131,7 +1171,9 @@
       "get": {
         "description": "Get a list of roles in an organisation",
         "operationId": "list_roles",
-        "tags": ["Role"],
+        "tags": [
+          "Role"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -1187,7 +1229,9 @@
       "post": {
         "description": "Create a new role in an organisation",
         "operationId": "create_role",
-        "tags": ["Role"],
+        "tags": [
+          "Role"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -1249,7 +1293,9 @@
       "get": {
         "description": "Get a specific role in an organisation",
         "operationId": "get_role",
-        "tags": ["Role"],
+        "tags": [
+          "Role"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -1300,7 +1346,9 @@
       "put": {
         "description": "Update a specific role in an organisation",
         "operationId": "update_role",
-        "tags": ["Role"],
+        "tags": [
+          "Role"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -1362,7 +1410,9 @@
       "delete": {
         "description": "Delete a specific role in an organisation",
         "operationId": "delete_role",
-        "tags": ["Role"],
+        "tags": [
+          "Role"
+        ],
         "parameters": [
           {
             "name": "organisation_id",
@@ -1409,7 +1459,10 @@
     "schemas": {
       "OrganisationRequest": {
         "type": "object",
-        "required": ["name", "domain"],
+        "required": [
+          "name",
+          "domain"
+        ],
         "properties": {
           "name": {
             "type": "string",
@@ -1488,14 +1541,19 @@
       },
       "ProgrammeRequest": {
         "type": "object",
-        "required": ["name"],
+        "required": [
+          "name"
+        ],
         "properties": {
           "name": {
             "type": "string",
             "example": "Digital Transformation"
           },
           "manager_id": {
-            "type": ["string", "null"],
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "uuid",
             "nullable": true,
             "example": "2d23f327-f308-4003-a9be-1ac7b9a8c01c",
@@ -1565,14 +1623,21 @@
       },
       "ProjectRequest": {
         "type": "object",
-        "required": ["name", "programme_id"],
+        "required": [
+          "name",
+          "programme_id",
+          "status"
+        ],
         "properties": {
           "name": {
             "type": "string",
             "example": "Skunkworks"
           },
           "manager_id": {
-            "type": ["string", "null"],
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "uuid",
             "nullable": true,
             "example": "2d23f327-f308-4003-a9be-1ac7b9a8c01c",
@@ -1583,6 +1648,14 @@
             "format": "uuid",
             "nullable": true,
             "example": "f6d1cd4f-9756-499b-b0cc-603aa4935c6f"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "paused",
+              "closed"
+            ]
           }
         }
       },
@@ -1608,6 +1681,14 @@
           },
           "programme": {
             "$ref": "#/components/schemas/ProgrammeItem"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "paused",
+              "closed"
+            ]
           },
           "organisation": {
             "$ref": "#/components/schemas/OrganisationItem"
@@ -1639,12 +1720,25 @@
           },
           "manager": {
             "$ref": "#/components/schemas/PersonItem"
+          },
+          "programme": {
+            "$ref": "#/components/schemas/ProgrammeItem"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "paused",
+              "closed"
+            ]
           }
         }
       },
       "TeamRequest": {
         "type": "object",
-        "required": ["name"],
+        "required": [
+          "name"
+        ],
         "properties": {
           "name": {
             "type": "string",
@@ -1734,7 +1828,10 @@
           },
           "employment": {
             "type": "string",
-            "enum": ["permanent", "contract"]
+            "enum": [
+              "permanent",
+              "contract"
+            ]
           },
           "full_time_equivalent": {
             "type": "number",
@@ -1774,7 +1871,10 @@
           },
           "employment": {
             "type": "string",
-            "enum": ["permanent", "contract"]
+            "enum": [
+              "permanent",
+              "contract"
+            ]
           },
           "full_time_equivalent": {
             "type": "number",
@@ -1823,7 +1923,10 @@
       },
       "RoleRequest": {
         "type": "object",
-        "required": ["title", "grade_id"],
+        "required": [
+          "title",
+          "grade_id"
+        ],
         "properties": {
           "title": {
             "type": "string",
@@ -1835,7 +1938,10 @@
             "example": "fac79045-d2f9-489f-acdb-510acbd239c3"
           },
           "practice_id": {
-            "type": ["string", "null"],
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "uuid",
             "nullable": true,
             "example": "2d23f327-f308-4003-a9be-1ac7b9a8c01c"
@@ -1903,14 +2009,19 @@
       },
       "PracticeRequest": {
         "type": "object",
-        "required": ["name"],
+        "required": [
+          "name"
+        ],
         "properties": {
           "name": {
             "type": "string",
             "example": "Software Development"
           },
           "head_id": {
-            "type": ["string", "null"],
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "uuid",
             "nullable": true,
             "example": "2d23f327-f308-4003-a9be-1ac7b9a8c01c",
@@ -1980,7 +2091,9 @@
       },
       "GradeRequest": {
         "type": "object",
-        "required": ["name"],
+        "required": [
+          "name"
+        ],
         "properties": {
           "name": {
             "type": "string",

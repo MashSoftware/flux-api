@@ -375,6 +375,7 @@ class Project(db.Model):
     name = db.Column(db.String(), nullable=False, index=True)
     manager_id = db.Column(UUID, db.ForeignKey("person.id", ondelete="SET NULL"), nullable=True, index=True)
     programme_id = db.Column(UUID, db.ForeignKey("programme.id"), nullable=True)
+    status = db.Column(db.String(), nullable=False, index=True)
     organisation_id = db.Column(UUID, db.ForeignKey("organisation.id"), nullable=False)
     created_at = db.Column(db.DateTime(timezone=True), nullable=False, index=True)
     updated_at = db.Column(db.DateTime(timezone=True), nullable=True)
@@ -385,11 +386,12 @@ class Project(db.Model):
     # many to many with person
 
     # Methods
-    def __init__(self, name, manager_id, programme_id, organisation_id):
+    def __init__(self, name, manager_id, programme_id, status, organisation_id):
         self.id = str(uuid.uuid4())
         self.name = name
         self.manager_id = str(uuid.UUID(manager_id, version=4)) if manager_id else None
         self.programme_id = str(uuid.UUID(programme_id, version=4))
+        self.status = status
         self.organisation_id = str(uuid.UUID(organisation_id, version=4))
         self.created_at = datetime.utcnow()
 
@@ -410,6 +412,7 @@ class Project(db.Model):
                 "id": self.programme.id,
                 "name": self.programme.name,
             },
+            "status": self.status,
             "organisation": {
                 "id": self.organisation.id,
                 "name": self.organisation.name,
@@ -432,6 +435,7 @@ class Project(db.Model):
                 "id": self.programme.id,
                 "name": self.programme.name,
             },
+            "status": self.status,
         }
 
 

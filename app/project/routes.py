@@ -69,6 +69,7 @@ def create(organisation_id):
         name=request.json["name"],
         manager_id=request.json["manager_id"] if "manager_id" in request.json else None,
         programme_id=request.json["programme_id"],
+        status=request.json["status"],
         organisation_id=str(organisation_id),
     )
 
@@ -115,6 +116,7 @@ def update(organisation_id, project_id):
     project.name = request.json["name"]
     project.manager_id = request.json["manager_id"] if "manager_id" in request.json else None
     project.programme_id = request.json["programme_id"]
+    project.status = request.json["status"]
     project.updated_at = datetime.utcnow()
 
     db.session.add(project)
