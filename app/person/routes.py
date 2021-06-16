@@ -20,10 +20,18 @@ person_schema = openapi["components"]["schemas"]["PersonRequest"]
 def list(organisation_id):
     """Get a list of People in an Organisation."""
     name_query = request.args.get("name", type=str)
+    role_filter = request.args.get("role_id", type=str)
 
     if name_query:
         people = (
             Person.query.filter(Person.name.ilike("%{}%".format(name_query)))
+            .filter_by(organisation_id=str(organisation_id))
+            .order_by(Person.name.asc())
+            .all()
+        )
+    elif role_filter:
+        people = (
+            Person.query.filter_by(role_id=role_filter)
             .filter_by(organisation_id=str(organisation_id))
             .order_by(Person.name.asc())
             .all()
