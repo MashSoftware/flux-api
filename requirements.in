@@ -1,4 +1,4 @@
-flask-compress==1.9.0
+flask-compress==1.10.1
 flask-limiter==1.4
 flask-migrate==3.0.1
 flask-negotiate==0.1.0

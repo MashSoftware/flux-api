@@ -27,7 +27,6 @@ flake8-polyfill==1.0.2
     # via pep8-naming
 flake8==3.8.4
     # via
-    #   -r requirements_dev.in
     #   flake8-polyfill
     #   hacking
 hacking==4.1.0
