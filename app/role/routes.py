@@ -20,10 +20,26 @@ role_schema = openapi["components"]["schemas"]["RoleRequest"]
 def list(organisation_id):
     """Get a list of Roles."""
     name_query = request.args.get("title", type=str)
+    grade_filter = request.args.get("grade_id", type=str)
+    practice_filter = request.args.get("practice_id", type=str)
 
     if name_query:
         roles = (
             Role.query.filter(Role.title.ilike("%{}%".format(name_query)))
+            .filter_by(organisation_id=str(organisation_id))
+            .order_by(Role.title.asc())
+            .all()
+        )
+    elif grade_filter:
+        roles = (
+            Role.query.filter_by(grade_id=grade_filter)
+            .filter_by(organisation_id=str(organisation_id))
+            .order_by(Role.title.asc())
+            .all()
+        )
+    elif practice_filter:
+        roles = (
+            Role.query.filter_by(practice_id=practice_filter)
             .filter_by(organisation_id=str(organisation_id))
             .order_by(Role.title.asc())
             .all()
