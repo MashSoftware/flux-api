@@ -23,7 +23,7 @@ def list(organisation_id):
 
     if name_query:
         programmes = (
-            Programme.query.filter(Programme.name.ilike("%{}%".format(name_query)))
+            Programme.query.filter(Programme.name.ilike(f"%{name_query}%"))
             .filter_by(organisation_id=str(organisation_id))
             .order_by(Programme.name.asc())
             .all()

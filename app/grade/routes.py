@@ -23,7 +23,7 @@ def list(organisation_id):
 
     if name_query:
         grades = (
-            Grade.query.filter(Grade.name.ilike("%{}%".format(name_query)))
+            Grade.query.filter(Grade.name.ilike(f"%{name_query}%"))
             .filter_by(organisation_id=str(organisation_id))
             .order_by(Grade.name.asc())
             .all()

@@ -24,7 +24,7 @@ def list():
 
     if name_query:
         organisations = (
-            Organisation.query.filter(Organisation.name.ilike("%{}%".format(name_query)))
+            Organisation.query.filter(Organisation.name.ilike(f"%{name_query}%"))
             .order_by(Organisation.name.asc())
             .all()
         )
