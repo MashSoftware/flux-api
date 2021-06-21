@@ -1,5 +1,7 @@
+import csv
 import json
 from datetime import datetime
+from io import StringIO
 
 from app import db
 from app.models import Programme
@@ -16,7 +18,7 @@ programme_schema = openapi["components"]["schemas"]["ProgrammeRequest"]
 
 
 @programme.route("/<uuid:organisation_id>/programmes", methods=["GET"])
-@produces("application/json")
+@produces("application/json", "text/csv")
 def list(organisation_id):
     """Get a list of Programmes in an Organisation."""
     name_query = request.args.get("name", type=str)
@@ -34,15 +36,43 @@ def list(organisation_id):
         )
 
     if programmes:
-        results = []
-        for programme in programmes:
-            results.append(programme.list_item())
+        if "application/json" in request.headers.getlist("accept"):
+            results = [programme.list_item() for programme in programmes]
 
-        return Response(
-            json.dumps(results, separators=(",", ":")),
-            mimetype="application/json",
-            status=200,
-        )
+            return Response(
+                json.dumps(results, separators=(",", ":")),
+                mimetype="application/json",
+                status=200,
+            )
+        elif "text/csv" in request.headers.getlist("accept"):
+
+            def generate():
+                data = StringIO()
+                w = csv.writer(data)
+
+                # write header
+                w.writerow(("ID", "NAME", "CREATED_AT", "UPDATED_AT"))
+                yield data.getvalue()
+                data.seek(0)
+                data.truncate(0)
+
+                # write each item
+                for programme in programmes:
+                    w.writerow(
+                        (
+                            programme.id,
+                            programme.name,
+                            programme.created_at.isoformat(),
+                            programme.updated_at.isoformat() if programme.updated_at else None,
+                        )
+                    )
+                    yield data.getvalue()
+                    data.seek(0)
+                    data.truncate(0)
+
+            response = Response(generate(), mimetype="text/csv", status=200)
+            response.headers.set("Content-Disposition", "attachment", filename="programmes.csv")
+            return response
     else:
         return Response(mimetype="application/json", status=204)
 

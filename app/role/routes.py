@@ -1,5 +1,7 @@
+import csv
 import json
 from datetime import datetime
+from io import StringIO
 
 from app import db
 from app.models import Grade, Practice, Role
@@ -16,7 +18,7 @@ role_schema = openapi["components"]["schemas"]["RoleRequest"]
 
 
 @role.route("/<uuid:organisation_id>/roles", methods=["GET"])
-@produces("application/json")
+@produces("application/json", "text/csv")
 def list(organisation_id):
     """Get a list of Roles."""
     title_query = request.args.get("title", type=str)
@@ -48,15 +50,43 @@ def list(organisation_id):
         roles = Role.query.filter_by(organisation_id=str(organisation_id)).order_by(Role.title.asc()).all()
 
     if roles:
-        results = []
-        for role in roles:
-            results.append(role.list_item())
+        if "application/json" in request.headers.getlist("accept"):
+            results = [role.list_item() for role in roles]
 
-        return Response(
-            json.dumps(results, separators=(",", ":")),
-            mimetype="application/json",
-            status=200,
-        )
+            return Response(
+                json.dumps(results, separators=(",", ":")),
+                mimetype="application/json",
+                status=200,
+            )
+        elif "text/csv" in request.headers.getlist("accept"):
+
+            def generate():
+                data = StringIO()
+                w = csv.writer(data)
+
+                # write header
+                w.writerow(("ID", "TITLE", "CREATED_AT", "UPDATED_AT"))
+                yield data.getvalue()
+                data.seek(0)
+                data.truncate(0)
+
+                # write each item
+                for role in roles:
+                    w.writerow(
+                        (
+                            role.id,
+                            role.title,
+                            role.created_at.isoformat(),
+                            role.updated_at.isoformat() if role.updated_at else None,
+                        )
+                    )
+                    yield data.getvalue()
+                    data.seek(0)
+                    data.truncate(0)
+
+            response = Response(generate(), mimetype="text/csv", status=200)
+            response.headers.set("Content-Disposition", "attachment", filename="roles.csv")
+            return response
     else:
         return Response(mimetype="application/json", status=204)
 

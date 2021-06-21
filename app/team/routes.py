@@ -18,7 +18,7 @@ team_schema = openapi["components"]["schemas"]["TeamRequest"]
 
 
 @team.route("/<uuid:organisation_id>/teams", methods=["GET"])
-@produces("application/json")
+@produces("application/json", "text/csv")
 def list(organisation_id):
     """Get a list of Teams."""
     return NotImplemented

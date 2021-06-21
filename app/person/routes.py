@@ -1,5 +1,7 @@
+import csv
 import json
 from datetime import datetime
+from io import StringIO
 
 from app import db
 from app.models import Person
@@ -16,7 +18,7 @@ person_schema = openapi["components"]["schemas"]["PersonRequest"]
 
 
 @person.route("/<uuid:organisation_id>/people", methods=["GET"])
-@produces("application/json")
+@produces("application/json", "text/csv")
 def list(organisation_id):
     """Get a list of People in an Organisation."""
     name_query = request.args.get("name", type=str)
@@ -40,15 +42,58 @@ def list(organisation_id):
         people = Person.query.filter_by(organisation_id=str(organisation_id)).order_by(Person.name.asc()).all()
 
     if people:
-        results = []
-        for person in people:
-            results.append(person.list_item())
+        if "application/json" in request.headers.getlist("accept"):
+            results = [person.list_item() for person in people]
 
-        return Response(
-            json.dumps(results, separators=(",", ":")),
-            mimetype="application/json",
-            status=200,
-        )
+            return Response(
+                json.dumps(results, separators=(",", ":")),
+                mimetype="application/json",
+                status=200,
+            )
+        elif "text/csv" in request.headers.getlist("accept"):
+
+            def generate():
+                data = StringIO()
+                w = csv.writer(data)
+
+                # write header
+                w.writerow(
+                    (
+                        "ID",
+                        "NAME",
+                        "EMAIL_ADDRESS",
+                        "FULL_TIME_EQUIVALENT",
+                        "LOCATION",
+                        "EMPLOYMENT",
+                        "CREATED_AT",
+                        "UPDATED_AT",
+                    )
+                )
+                yield data.getvalue()
+                data.seek(0)
+                data.truncate(0)
+
+                # write each item
+                for person in people:
+                    w.writerow(
+                        (
+                            person.id,
+                            person.name,
+                            person.email_address,
+                            person.full_time_equivalent,
+                            person.location,
+                            person.employment,
+                            person.created_at.isoformat(),
+                            person.updated_at.isoformat() if person.updated_at else None,
+                        )
+                    )
+                    yield data.getvalue()
+                    data.seek(0)
+                    data.truncate(0)
+
+            response = Response(generate(), mimetype="text/csv", status=200)
+            response.headers.set("Content-Disposition", "attachment", filename="people.csv")
+            return response
     else:
         return Response(mimetype="application/json", status=204)
 

@@ -1,9 +1,11 @@
+import csv
 import json
 from datetime import datetime
+from io import StringIO
 
 from app import db
-from app.models import Grade
 from app.grade import grade
+from app.models import Grade
 from flask import Response, request, url_for
 from flask_negotiate import consumes, produces
 from jsonschema import FormatChecker, ValidationError, validate
@@ -16,7 +18,7 @@ grade_schema = openapi["components"]["schemas"]["GradeRequest"]
 
 
 @grade.route("/<uuid:organisation_id>/grades", methods=["GET"])
-@produces("application/json")
+@produces("application/json", "text/csv")
 def list(organisation_id):
     """Get a list of Grades in an Organisation."""
     name_query = request.args.get("name", type=str)
@@ -32,15 +34,43 @@ def list(organisation_id):
         grades = Grade.query.filter_by(organisation_id=str(organisation_id)).order_by(Grade.name.asc()).all()
 
     if grades:
-        results = []
-        for grade in grades:
-            results.append(grade.list_item())
+        if "application/json" in request.headers.getlist("accept"):
+            results = [grade.list_item() for grade in grades]
 
-        return Response(
-            json.dumps(results, separators=(",", ":")),
-            mimetype="application/json",
-            status=200,
-        )
+            return Response(
+                json.dumps(results, separators=(",", ":")),
+                mimetype="application/json",
+                status=200,
+            )
+        elif "text/csv" in request.headers.getlist("accept"):
+
+            def generate():
+                data = StringIO()
+                w = csv.writer(data)
+
+                # write header
+                w.writerow(("ID", "NAME", "CREATED_AT", "UPDATED_AT"))
+                yield data.getvalue()
+                data.seek(0)
+                data.truncate(0)
+
+                # write each item
+                for grade in grades:
+                    w.writerow(
+                        (
+                            grade.id,
+                            grade.name,
+                            grade.created_at.isoformat(),
+                            grade.updated_at.isoformat() if grade.updated_at else None,
+                        )
+                    )
+                    yield data.getvalue()
+                    data.seek(0)
+                    data.truncate(0)
+
+            response = Response(generate(), mimetype="text/csv", status=200)
+            response.headers.set("Content-Disposition", "attachment", filename="grades.csv")
+            return response
     else:
         return Response(mimetype="application/json", status=204)
 

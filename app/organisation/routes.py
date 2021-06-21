@@ -1,5 +1,7 @@
+import csv
 import json
 from datetime import datetime
+from io import StringIO
 
 from app import db
 from app.models import Organisation
@@ -17,7 +19,7 @@ organisation_schema = openapi["components"]["schemas"]["OrganisationRequest"]
 
 
 @organisation.route("", methods=["GET"])
-@produces("application/json")
+@produces("application/json", "text/csv")
 def list():
     """Get a list of Organisations."""
     name_query = request.args.get("name", type=str)
@@ -32,15 +34,44 @@ def list():
         organisations = Organisation.query.order_by(Organisation.name.asc()).all()
 
     if organisations:
-        results = []
-        for organisation in organisations:
-            results.append(organisation.list_item())
+        if "application/json" in request.headers.getlist("accept"):
+            results = [organisation.list_item() for organisation in organisations]
 
-        return Response(
-            json.dumps(results, separators=(",", ":")),
-            mimetype="application/json",
-            status=200,
-        )
+            return Response(
+                json.dumps(results, separators=(",", ":")),
+                mimetype="application/json",
+                status=200,
+            )
+        elif "text/csv" in request.headers.getlist("accept"):
+
+            def generate():
+                data = StringIO()
+                w = csv.writer(data)
+
+                # write header
+                w.writerow(("ID", "NAME", "DOMAIN", "CREATED_AT", "UPDATED_AT"))
+                yield data.getvalue()
+                data.seek(0)
+                data.truncate(0)
+
+                # write each item
+                for organisation in organisations:
+                    w.writerow(
+                        (
+                            organisation.id,
+                            organisation.name,
+                            organisation.domain,
+                            organisation.created_at.isoformat(),
+                            organisation.updated_at.isoformat() if organisation.updated_at else None,
+                        )
+                    )
+                    yield data.getvalue()
+                    data.seek(0)
+                    data.truncate(0)
+
+            response = Response(generate(), mimetype="text/csv", status=200)
+            response.headers.set("Content-Disposition", "attachment", filename="organisations.csv")
+            return response
     else:
         return Response(mimetype="application/json", status=204)
 
