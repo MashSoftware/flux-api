@@ -6,6 +6,6 @@ flask-sqlalchemy==2.5.1
 flask==2.0.1
 gunicorn==20.1.0
 jsonschema==3.2.0
-psycopg2==2.8.6
-python-dotenv==0.17.1
+psycopg2==2.9.1
+python-dotenv==0.18.0
 redis==3.5.3
