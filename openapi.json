@@ -2050,6 +2050,71 @@
           }
         }
       },
+      "LocationRequest": {
+        "type": "object",
+        "required": ["name", "address"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Wigan"
+          },
+          "address": {
+            "type": "string",
+            "example": "62 West Wallaby Street, Wigan, Lancashire"
+          }
+        }
+      },
+      "Location": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "fac79045-d2f9-489f-acdb-510acbd239c3"
+          },
+          "name": {
+            "type": "string",
+            "example": "Wigan"
+          },
+          "address": {
+            "type": "string",
+            "example": "62 West Wallaby Street, Wigan, Lancashire"
+          },
+          "organisation": {
+            "$ref": "#/components/schemas/OrganisationItem"
+          },
+          "people": {
+            "type": "integer",
+            "format": "int32",
+            "example": 567
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2021-04-20T22:04:51.583801+01:00"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": "2021-04-20T22:16:57.492478+01:00"
+          }
+        }
+      },
+      "LocationItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "fac79045-d2f9-489f-acdb-510acbd239c3"
+          },
+          "name": {
+            "type": "string",
+            "example": "Wigan"
+          }
+        }
+      },
       "Error": {
         "type": "object",
         "properties": {

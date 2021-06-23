@@ -25,6 +25,7 @@ def create_app(config_class=Config):
 
     # Register blueprints
     from app.grade import grade
+    from app.location import location
     from app.main import main
     from app.organisation import organisation
     from app.person import person
@@ -35,6 +36,8 @@ def create_app(config_class=Config):
     from app.team import team
 
     app.register_blueprint(grade, url_prefix="/v1/organisations")
+    app.register_blueprint(location, url_prefix="/v1/organisations")
+    app.register_blueprint(main)
     app.register_blueprint(organisation, url_prefix="/v1/organisations")
     app.register_blueprint(person, url_prefix="/v1/organisations")
     app.register_blueprint(practice, url_prefix="/v1/organisations")
@@ -42,7 +45,6 @@ def create_app(config_class=Config):
     app.register_blueprint(project, url_prefix="/v1/organisations")
     app.register_blueprint(role, url_prefix="/v1/organisations")
     app.register_blueprint(team, url_prefix="/v1/organisations")
-    app.register_blueprint(main)
 
     stream_handler = logging.StreamHandler()
     stream_handler.setLevel(logging.INFO)

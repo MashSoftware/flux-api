@@ -50,11 +50,12 @@ class Organisation(db.Model):
 
     # Relationships
     grades = db.relationship("Grade", backref="organisation")
-    programmes = db.relationship("Programme", backref="organisation")
-    practices = db.relationship("Practice", backref="organisation")
-    roles = db.relationship("Role", backref="organisation")
+    locations = db.relationship("Location", backref="organisation")
     people = db.relationship("Person", backref="organisation")
+    practices = db.relationship("Practice", backref="organisation")
+    programmes = db.relationship("Programme", backref="organisation")
     projects = db.relationship("Project", backref="organisation")
+    roles = db.relationship("Role", backref="organisation")
 
     # Methods
     def __init__(self, name, domain):
@@ -87,6 +88,47 @@ class Organisation(db.Model):
             "name": self.name,
             "domain": self.domain,
         }
+
+
+class Location(db.Model):
+    # Fields
+    id = db.Column(UUID, primary_key=True)
+    name = db.Column(db.String(), nullable=False, index=True)
+    address = db.Column(db.String(), nullable=False)
+    organisation_id = db.Column(UUID, db.ForeignKey("organisation.id", ondelete="CASCADE"), nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True), nullable=False, index=True)
+    updated_at = db.Column(db.DateTime(timezone=True), nullable=True)
+
+    # Relationships
+    people = db.relationship("Person", backref="location", lazy=True)
+
+    # Methods
+    def __init__(self, name, address, organisation_id):
+        self.id = str(uuid.uuid4())
+        self.name = name
+        self.address = address
+        self.organisation_id = str(uuid.UUID(organisation_id, version=4))
+        self.created_at = datetime.utcnow()
+
+    def __repr__(self):
+        return json.dumps(self.as_dict(), separators=(",", ":"))
+
+    def as_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "address": self.address,
+            "organisation": {
+                "id": self.organisation.id,
+                "name": self.organisation.name,
+            },
+            "people": len(self.people),
+            "created_at": self.created_at.isoformat(),
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+        }
+
+    def list_item(self):
+        return {"id": self.id, "name": self.name}
 
 
 class Grade(db.Model):
@@ -245,7 +287,12 @@ class Person(db.Model):
     )
     email_address = db.Column(db.String(254), nullable=False, unique=True)
     full_time_equivalent = db.Column(db.Float, nullable=True)
-    location = db.Column(db.String, nullable=True)
+    location_id = db.Column(
+        UUID,
+        db.ForeignKey("location.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
     employment = db.Column(db.String, nullable=True)
     created_at = db.Column(db.DateTime(timezone=True), nullable=False, index=True)
     updated_at = db.Column(db.DateTime(timezone=True), nullable=True)
@@ -272,7 +319,7 @@ class Person(db.Model):
         organisation_id,
         email_address,
         full_time_equivalent,
-        location,
+        location_id,
         employment,
     ):
         self.id = str(uuid.uuid4())
@@ -281,7 +328,7 @@ class Person(db.Model):
         self.role_id = str(uuid.UUID(role_id, version=4))
         self.email_address = email_address.lower()
         self.full_time_equivalent = full_time_equivalent
-        self.location = location
+        self.location_id = str(uuid.UUID(location_id, version=4))
         self.employment = employment
         self.created_at = datetime.utcnow()
 
@@ -299,7 +346,7 @@ class Person(db.Model):
             "role": self.role.list_item(),
             "email_address": self.email_address,
             "full_time_equivalent": self.full_time_equivalent,
-            "location": self.location,
+            "location": self.location.list_item(),
             "employment": self.employment,
             "created_at": self.created_at.isoformat(),
             "updated_at": self.updated_at.isoformat() if self.updated_at else None,
