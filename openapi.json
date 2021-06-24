@@ -1727,7 +1727,7 @@
         "required": [
           "name",
           "email_address",
-          "location",
+          "location_id",
           "employment",
           "full_time_equivalent",
           "role_id"
@@ -1758,9 +1758,10 @@
             "maximum": 1,
             "example": 0.8
           },
-          "location": {
+          "location_id": {
             "type": "string",
-            "example": "Plymouth"
+            "format": "uuid",
+            "example": "cbc0568d-86d2-4a59-82b2-affb05988628"
           }
         }
       },
@@ -1799,8 +1800,7 @@
             "example": 0.8
           },
           "location": {
-            "type": "string",
-            "example": "Plymouth"
+            "$ref": "#/components/schemas/LocationItem"
           },
           "teams": {
             "type": "array",
@@ -1833,6 +1833,12 @@
           "name": {
             "type": "string",
             "example": "Mickey Mouse"
+          },
+          "role": {
+            "$ref": "#/components/schemas/RoleItem"
+          },
+          "location": {
+            "$ref": "#/components/schemas/LocationItem"
           }
         }
       },
