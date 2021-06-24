@@ -358,6 +358,7 @@ class Person(db.Model):
             "id": self.id,
             "name": self.name,
             "role": self.role.list_item(),
+            "location": self.location.list_item(),
         }
 
 
