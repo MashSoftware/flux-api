@@ -49,7 +49,7 @@ def list(organisation_id):
                 w = csv.writer(data)
 
                 # write header
-                w.writerow(("ID", "NAME", "CREATED_AT", "UPDATED_AT"))
+                w.writerow(("ID", "NAME", "ADDRESS", "CREATED_AT", "UPDATED_AT"))
                 yield data.getvalue()
                 data.seek(0)
                 data.truncate(0)
@@ -60,6 +60,7 @@ def list(organisation_id):
                         (
                             location.id,
                             location.name,
+                            location.address,
                             location.created_at.isoformat(),
                             location.updated_at.isoformat() if location.updated_at else None,
                         )
