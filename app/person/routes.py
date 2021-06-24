@@ -23,6 +23,7 @@ def list(organisation_id):
     """Get a list of People in an Organisation."""
     name_query = request.args.get("name", type=str)
     role_filter = request.args.get("role_id", type=str)
+    location_filter = request.args.get("location_id", type=str)
 
     if name_query:
         people = (
@@ -34,6 +35,13 @@ def list(organisation_id):
     elif role_filter:
         people = (
             Person.query.filter_by(role_id=role_filter)
+            .filter_by(organisation_id=str(organisation_id))
+            .order_by(Person.name.asc())
+            .all()
+        )
+    elif location_filter:
+        people = (
+            Person.query.filter_by(location_id=location_filter)
             .filter_by(organisation_id=str(organisation_id))
             .order_by(Person.name.asc())
             .all()
@@ -63,7 +71,6 @@ def list(organisation_id):
                         "NAME",
                         "EMAIL_ADDRESS",
                         "FULL_TIME_EQUIVALENT",
-                        "LOCATION",
                         "EMPLOYMENT",
                         "CREATED_AT",
                         "UPDATED_AT",
@@ -81,7 +88,6 @@ def list(organisation_id):
                             person.name,
                             person.email_address,
                             person.full_time_equivalent,
-                            person.location,
                             person.employment,
                             person.created_at.isoformat(),
                             person.updated_at.isoformat() if person.updated_at else None,
@@ -114,7 +120,7 @@ def create(organisation_id):
         name=request.json["name"],
         email_address=request.json["email_address"],
         full_time_equivalent=request.json["full_time_equivalent"],
-        location=request.json["location"],
+        location_id=request.json["location_id"],
         employment=request.json["employment"],
         role_id=request.json["role_id"],
         organisation_id=str(organisation_id),
@@ -164,7 +170,7 @@ def update(organisation_id, person_id):
     person.name = request.json["name"]
     person.email_address = request.json["email_address"]
     person.full_time_equivalent = request.json["full_time_equivalent"]
-    person.location = request.json["location"]
+    person.location_id = request.json["location_id"]
     person.employment = request.json["employment"]
     person.role_id = request.json["role_id"]
     person.updated_at = datetime.utcnow()
