@@ -60,8 +60,8 @@ class Organisation(db.Model):
     # Methods
     def __init__(self, name, domain):
         self.id = str(uuid.uuid4())
-        self.name = name
-        self.domain = domain.lower()
+        self.name = name.strip()
+        self.domain = domain.strip().lower()
         self.created_at = datetime.utcnow()
 
     def __repr__(self):
@@ -106,8 +106,8 @@ class Location(db.Model):
     # Methods
     def __init__(self, name, address, organisation_id):
         self.id = str(uuid.uuid4())
-        self.name = name
-        self.address = address
+        self.name = name.strip().title()
+        self.address = address.strip()
         self.organisation_id = str(uuid.UUID(organisation_id, version=4))
         self.created_at = datetime.utcnow()
 
@@ -146,7 +146,7 @@ class Grade(db.Model):
     # Methods
     def __init__(self, name, organisation_id):
         self.id = str(uuid.uuid4())
-        self.name = name
+        self.name = name.strip()
         self.organisation_id = str(uuid.UUID(organisation_id, version=4))
         self.created_at = datetime.utcnow()
 
@@ -186,7 +186,7 @@ class Practice(db.Model):
     # Methods
     def __init__(self, name, head_id, organisation_id):
         self.id = str(uuid.uuid4())
-        self.name = name
+        self.name = name.strip().title()
         self.head_id = str(uuid.UUID(head_id, version=4)) if head_id else None
         self.organisation_id = str(uuid.UUID(organisation_id, version=4))
         self.created_at = datetime.utcnow()
@@ -242,7 +242,7 @@ class Role(db.Model):
     # Methods
     def __init__(self, title, grade_id, practice_id, organisation_id):
         self.id = str(uuid.uuid4())
-        self.title = title
+        self.title = title.strip()
         self.grade_id = str(uuid.UUID(grade_id, version=4))
         self.practice_id = str(uuid.UUID(practice_id, version=4)) if practice_id else None
         self.organisation_id = str(uuid.UUID(organisation_id, version=4))
@@ -324,13 +324,13 @@ class Person(db.Model):
         employment,
     ):
         self.id = str(uuid.uuid4())
-        self.name = name.title()
+        self.name = name.strip().title()
         self.organisation_id = str(uuid.UUID(organisation_id, version=4))
         self.role_id = str(uuid.UUID(role_id, version=4))
-        self.email_address = email_address.lower()
-        self.full_time_equivalent = full_time_equivalent
+        self.email_address = email_address.strip().lower()
+        self.full_time_equivalent = full_time_equivalent.strip()
         self.location_id = str(uuid.UUID(location_id, version=4))
-        self.employment = employment
+        self.employment = employment.strip()
         self.created_at = datetime.utcnow()
 
     def __repr__(self):
@@ -378,7 +378,7 @@ class Programme(db.Model):
     # Methods
     def __init__(self, name, manager_id, organisation_id):
         self.id = str(uuid.uuid4())
-        self.name = name
+        self.name = name.strip()
         self.manager_id = str(uuid.UUID(manager_id, version=4)) if manager_id else None
         self.organisation_id = str(uuid.UUID(organisation_id, version=4))
         self.created_at = datetime.utcnow()
@@ -437,10 +437,10 @@ class Project(db.Model):
     # Methods
     def __init__(self, name, manager_id, programme_id, status, organisation_id):
         self.id = str(uuid.uuid4())
-        self.name = name
+        self.name = name.strip()
         self.manager_id = str(uuid.UUID(manager_id, version=4)) if manager_id else None
         self.programme_id = str(uuid.UUID(programme_id, version=4))
-        self.status = status
+        self.status = status.strip()
         self.organisation_id = str(uuid.UUID(organisation_id, version=4))
         self.created_at = datetime.utcnow()
 
