@@ -49,7 +49,7 @@ def list(organisation_id):
                 w = csv.writer(data)
 
                 # write header
-                w.writerow(("ID", "NAME", "CREATED_AT", "UPDATED_AT"))
+                w.writerow(("ID", "NAME", "COST_CENTRE", "CREATED_AT", "UPDATED_AT"))
                 yield data.getvalue()
                 data.seek(0)
                 data.truncate(0)
@@ -60,6 +60,7 @@ def list(organisation_id):
                         (
                             practice.id,
                             practice.name,
+                            practice.cost_centre,
                             practice.created_at.isoformat(),
                             practice.updated_at.isoformat() if practice.updated_at else None,
                         )
@@ -90,6 +91,7 @@ def create(organisation_id):
     practice = Practice(
         name=request.json["name"],
         head_id=request.json["head_id"] if "head_id" in request.json else None,
+        cost_centre=request.json["cost_centre"] if "cost_centre" in request.json else None,
         organisation_id=str(organisation_id),
     )
 
@@ -136,6 +138,7 @@ def update(organisation_id, practice_id):
 
     practice.name = request.json["name"]
     practice.head_id = request.json["head_id"] if "head_id" in request.json else None
+    practice.cost_centre = request.json["cost_centre"] if "cost_centre" in request.json else None,
     practice.updated_at = datetime.utcnow()
 
     db.session.add(practice)

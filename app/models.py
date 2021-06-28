@@ -175,6 +175,7 @@ class Practice(db.Model):
     id = db.Column(UUID, primary_key=True)
     name = db.Column(db.String(), nullable=False, index=True)
     head_id = db.Column(UUID, db.ForeignKey("person.id", ondelete="SET NULL"), nullable=True, index=True)
+    cost_centre = db.Column(db.String(), nullable=True)
     organisation_id = db.Column(UUID, db.ForeignKey("organisation.id", ondelete="CASCADE"), nullable=False)
     created_at = db.Column(db.DateTime(timezone=True), nullable=False, index=True)
     updated_at = db.Column(db.DateTime(timezone=True), nullable=True)
@@ -184,10 +185,11 @@ class Practice(db.Model):
     roles = db.relationship("Role", backref="practice", lazy=True)
 
     # Methods
-    def __init__(self, name, head_id, organisation_id):
+    def __init__(self, name, head_id, cost_centre, organisation_id):
         self.id = str(uuid.uuid4())
         self.name = name.strip().title()
         self.head_id = str(uuid.UUID(head_id, version=4)) if head_id else None
+        self.cost_centre = cost_centre.strip() if cost_centre else None
         self.organisation_id = str(uuid.UUID(organisation_id, version=4))
         self.created_at = datetime.utcnow()
 
@@ -204,6 +206,7 @@ class Practice(db.Model):
             }
             if self.head
             else None,
+            "cost_centre": self.cost_centre,
             "organisation": {
                 "id": self.organisation.id,
                 "name": self.organisation.name,
