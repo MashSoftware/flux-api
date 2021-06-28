@@ -138,7 +138,7 @@ def update(organisation_id, practice_id):
 
     practice.name = request.json["name"]
     practice.head_id = request.json["head_id"] if "head_id" in request.json else None
-    practice.cost_centre = request.json["cost_centre"] if "cost_centre" in request.json else None,
+    practice.cost_centre = (request.json["cost_centre"] if "cost_centre" in request.json else None,)
     practice.updated_at = datetime.utcnow()
 
     db.session.add(practice)
