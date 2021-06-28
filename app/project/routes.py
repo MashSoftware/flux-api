@@ -4,7 +4,7 @@ from datetime import datetime
 from io import StringIO
 
 from app import db
-from app.models import Project
+from app.models import Person, Project
 from app.project import project
 from flask import Response, request, url_for
 from flask_negotiate import consumes, produces
@@ -22,12 +22,20 @@ project_schema = openapi["components"]["schemas"]["ProjectRequest"]
 def list(organisation_id):
     """Get a list of Projects in an Organisation."""
     name_query = request.args.get("name", type=str)
+    manager_filter = request.args.get("manager_id", type=str)
     programme_filter = request.args.get("programme_id", type=str)
     status_filter = request.args.get("status", type=str)
 
     if name_query:
         projects = (
             Project.query.filter(Project.name.ilike(f"%{name_query}%"))
+            .filter_by(organisation_id=str(organisation_id))
+            .order_by(Project.name.asc())
+            .all()
+        )
+    elif manager_filter:
+        projects = (
+            Project.query.filter_by(manager_id=manager_filter)
             .filter_by(organisation_id=str(organisation_id))
             .order_by(Project.name.asc())
             .all()
@@ -182,3 +190,26 @@ def delete(organisation_id, project_id):
         raise InternalServerError
 
     return Response(mimetype="application/json", status=204)
+
+
+@project.route("/<uuid:organisation_id>/projects/managers", methods=["GET"])
+@produces("application/json")
+def managers(organisation_id):
+    """Get a list of Project Managers in an Organisation."""
+    manager_ids = [
+        manager["manager_id"]
+        for manager in Project.query.with_entities(Project.manager_id)
+        .filter_by(organisation_id=str(organisation_id))
+        .distinct()
+        .all()
+    ]
+    if manager_ids:
+        managers = Person.query.filter(Person.id.in_(manager_ids))
+        results = [{"id": manager.id, "name": manager.name} for manager in managers]
+        return Response(
+            json.dumps(results, separators=(",", ":")),
+            mimetype="application/json",
+            status=200,
+        )
+    else:
+        return Response(mimetype="application/json", status=204)
