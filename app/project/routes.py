@@ -26,36 +26,18 @@ def list(organisation_id):
     programme_filter = request.args.get("programme_id", type=str)
     status_filter = request.args.get("status", type=str)
 
+    query = Project.query.filter(Project.organisation_id == str(organisation_id))
+
     if name_query:
-        projects = (
-            Project.query.filter(Project.name.ilike(f"%{name_query}%"))
-            .filter_by(organisation_id=str(organisation_id))
-            .order_by(Project.name.asc())
-            .all()
-        )
-    elif manager_filter:
-        projects = (
-            Project.query.filter_by(manager_id=manager_filter)
-            .filter_by(organisation_id=str(organisation_id))
-            .order_by(Project.name.asc())
-            .all()
-        )
-    elif programme_filter:
-        projects = (
-            Project.query.filter_by(programme_id=programme_filter)
-            .filter_by(organisation_id=str(organisation_id))
-            .order_by(Project.name.asc())
-            .all()
-        )
-    elif status_filter:
-        projects = (
-            Project.query.filter_by(status=status_filter)
-            .filter_by(organisation_id=str(organisation_id))
-            .order_by(Project.name.asc())
-            .all()
-        )
-    else:
-        projects = Project.query.filter_by(organisation_id=str(organisation_id)).order_by(Project.name.asc()).all()
+        query = query.filter(Project.name.ilike(f"%{name_query}%"))
+    if manager_filter:
+        query = query.filter(Project.manager_id == manager_filter)
+    if programme_filter:
+        query = query.filter(Project.programme_id == programme_filter)
+    if status_filter:
+        query = query.filter(Project.status == status_filter)
+
+    projects = query.order_by(Project.name.asc()).all()
 
     if projects:
         if "application/json" in request.headers.getlist("accept"):
@@ -204,7 +186,7 @@ def managers(organisation_id):
         .all()
     ]
     if manager_ids:
-        managers = Person.query.filter(Person.id.in_(manager_ids))
+        managers = Person.query.filter(Person.id.in_(manager_ids)).order_by(Person.name.asc())
         results = [{"id": manager.id, "name": manager.name} for manager in managers]
         return Response(
             json.dumps(results, separators=(",", ":")),
