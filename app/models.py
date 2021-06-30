@@ -331,7 +331,7 @@ class Person(db.Model):
         self.organisation_id = str(uuid.UUID(organisation_id, version=4))
         self.role_id = str(uuid.UUID(role_id, version=4))
         self.email_address = email_address.strip().lower()
-        self.full_time_equivalent = full_time_equivalent.strip()
+        self.full_time_equivalent = full_time_equivalent
         self.location_id = str(uuid.UUID(location_id, version=4))
         self.employment = employment.strip()
         self.created_at = datetime.utcnow()
