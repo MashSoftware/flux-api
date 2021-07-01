@@ -27,7 +27,7 @@ jobs:
     - name: Check dependencies for known security vulnerabilities
       run: safety check -r requirements.txt
     - name: Check code for potential security vulnerabilities
-      run: bandit -r .
+      run: bandit -r . -z /tests
     - name: Check code formatting
       run: black . -l 120 --check
     - name: Lint with flake8
