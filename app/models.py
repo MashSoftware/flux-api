@@ -442,7 +442,7 @@ class Project(db.Model):
         self.id = str(uuid.uuid4())
         self.name = name.strip()
         self.manager_id = str(uuid.UUID(manager_id, version=4)) if manager_id else None
-        self.programme_id = str(uuid.UUID(programme_id, version=4))
+        self.programme_id = str(uuid.UUID(programme_id, version=4)) if programme_id else None
         self.status = status.strip()
         self.organisation_id = str(uuid.UUID(organisation_id, version=4))
         self.created_at = datetime.utcnow()
@@ -463,7 +463,9 @@ class Project(db.Model):
             "programme": {
                 "id": self.programme.id,
                 "name": self.programme.name,
-            },
+            }
+            if self.programme
+            else None,
             "status": self.status,
             "organisation": {
                 "id": self.organisation.id,
@@ -486,7 +488,9 @@ class Project(db.Model):
             "programme": {
                 "id": self.programme.id,
                 "name": self.programme.name,
-            },
+            }
+            if self.programme
+            else None,
             "status": self.status,
         }
 
