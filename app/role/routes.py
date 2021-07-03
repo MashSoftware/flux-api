@@ -25,29 +25,16 @@ def list(organisation_id):
     grade_filter = request.args.get("grade_id", type=str)
     practice_filter = request.args.get("practice_id", type=str)
 
+    query = Role.query.filter(Role.organisation_id == str(organisation_id))
+
     if title_query:
-        roles = (
-            Role.query.filter(Role.title.ilike(f"%{title_query}%"))
-            .filter_by(organisation_id=str(organisation_id))
-            .order_by(Role.title.asc())
-            .all()
-        )
-    elif grade_filter:
-        roles = (
-            Role.query.filter_by(grade_id=grade_filter)
-            .filter_by(organisation_id=str(organisation_id))
-            .order_by(Role.title.asc())
-            .all()
-        )
-    elif practice_filter:
-        roles = (
-            Role.query.filter_by(practice_id=practice_filter)
-            .filter_by(organisation_id=str(organisation_id))
-            .order_by(Role.title.asc())
-            .all()
-        )
-    else:
-        roles = Role.query.filter_by(organisation_id=str(organisation_id)).order_by(Role.title.asc()).all()
+        query = query.filter(Role.title.ilike(f"%{title_query}%"))
+    if grade_filter:
+        query = query.filter(Role.grade_id == grade_filter)
+    if practice_filter:
+        query = query.filter(Role.practice_id == practice_filter)
+
+    roles = query.order_by(Role.title.asc()).all()
 
     if roles:
         if "application/json" in request.headers.getlist("accept"):
