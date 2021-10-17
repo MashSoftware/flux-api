@@ -25,29 +25,16 @@ def list(organisation_id):
     role_filter = request.args.get("role_id", type=str)
     location_filter = request.args.get("location_id", type=str)
 
+    query = Person.query.filter(Person.organisation_id == str(organisation_id))
+
     if name_query:
-        people = (
-            Person.query.filter(Person.name.ilike(f"%{name_query}%"))
-            .filter_by(organisation_id=str(organisation_id))
-            .order_by(Person.name.asc())
-            .all()
-        )
-    elif role_filter:
-        people = (
-            Person.query.filter_by(role_id=role_filter)
-            .filter_by(organisation_id=str(organisation_id))
-            .order_by(Person.name.asc())
-            .all()
-        )
-    elif location_filter:
-        people = (
-            Person.query.filter_by(location_id=location_filter)
-            .filter_by(organisation_id=str(organisation_id))
-            .order_by(Person.name.asc())
-            .all()
-        )
-    else:
-        people = Person.query.filter_by(organisation_id=str(organisation_id)).order_by(Person.name.asc()).all()
+        query = query.filter(Person.name.ilike(f"%{name_query}%"))
+    if role_filter:
+        query = query.filter(Person.role_id == role_filter)
+    if location_filter:
+        query = query.filter(Person.location_id == location_filter)
+
+    people = query.order_by(Person.name.asc()).all()
 
     if people:
         if "application/json" in request.headers.getlist("accept"):

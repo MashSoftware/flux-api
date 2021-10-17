@@ -22,6 +22,7 @@ project_schema = openapi["components"]["schemas"]["ProjectRequest"]
 def list(organisation_id):
     """Get a list of Projects in an Organisation."""
     name_query = request.args.get("name", type=str)
+    sort_by = request.args.get("sort", type=str)
     manager_filter = request.args.get("manager_id", type=str)
     programme_filter = request.args.get("programme_id", type=str)
     status_filter = request.args.get("status", type=str)
@@ -37,12 +38,24 @@ def list(organisation_id):
     if status_filter:
         query = query.filter(Project.status == status_filter)
 
-    projects = query.order_by(Project.name.asc()).all()
+    query = query.order_by(Project.name.asc()).all()
+    
+    if sort_by == "manager":
+        projects = sorted([project for project in query], key=lambda k: k.manager.name if k.manager else "")
+    elif sort_by == "programme":
+        projects = sorted([project for project in query], key=lambda k: k.programme.name if k.programme else "")
+    elif sort_by == "status":
+        projects = sorted([project for project in query], key=lambda k: k.status)
+    else:
+        projects = query
+    
+    for project in projects:
+        print(project)
 
     if projects:
         if "application/json" in request.headers.getlist("accept"):
-            results = [project.list_item() for project in projects]
-
+            # results = sorted([project.list_item() for project in projects], key=lambda k: k["name"])
+            results = []
             return Response(
                 json.dumps(results, separators=(",", ":")),
                 mimetype="application/json",
